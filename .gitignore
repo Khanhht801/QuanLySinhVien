@@ -1,0 +1,23 @@
+.venv/
+__pycache__/
+*.pyc
+data/*.sqlite3
+data/*.sqlite3-*
+
+# Local data, exports and credentials
+*.sqlite3
+*.sqlite3-*
+*.xlsx
+.env
+.env.*
+!.env.example
+
+# Packaging output
+build/
+dist/
+release/
+*.spec
+
+# Temporary previews and editor backups
+preview*.png
+*.bak

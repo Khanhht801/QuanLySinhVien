@@ -1,0 +1,234 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ui version="4.0">
+ <class>LoginDialog</class>
+ <widget class="QDialog" name="LoginDialog">
+  <property name="font">
+   <font>
+    <family>Segoe UI</family>
+    <pointsize>9</pointsize>
+   </font>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1280</width>
+    <height>720</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>480</width>
+    <height>540</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Quản lý điểm sinh viên - Lớp K10TIN - Học kỳ 5</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="resources.qrc">
+    <normaloff>:/icons/app.svg</normaloff>:/icons/app.svg</iconset>
+  </property>
+  <property name="styleSheet">
+   <string>QDialog { background: #f6f8fb; }
+QWidget { font-family: "Segoe UI"; color: #172b4d; }
+QFrame#loginCard QWidget { font-size: 10pt; }
+QFrame#loginCard { background: white; border: 1px solid #d6e0ec; border-radius: 14px; }
+QFrame#loginCard QLabel#roleLabel { color: #075bb5; font-weight: bold; font-size: 19px; }
+QLabel#errorLabel { color: #c32c3b; }
+QLineEdit { background: white; border: 1px solid #b9c8da; border-radius: 6px; padding: 9px 12px; selection-background-color: #c6e7ff; }
+QLineEdit:focus { border: 1px solid #1683d5; }
+QPushButton { background: white; border: 1px solid #b9c8da; border-radius: 6px; padding: 10px 16px; }
+QPushButton:hover { background: #eaf4ff; border-color: #1683d5; }
+QPushButton#loginButton { background: #0079e8; border-color: #0069ce; color: white; font-weight: bold; }
+QPushButton#loginButton:hover { background: #0069cd; }
+QPushButton#loginButton:pressed { background: #0058ad; }</string>
+  </property>
+  <layout class="QVBoxLayout" name="rootLayout" stretch="1">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="QWidget" name="loginContent">
+     <layout class="QGridLayout" name="contentLayout">
+      <property name="leftMargin">
+       <number>20</number>
+      </property>
+      <property name="topMargin">
+       <number>20</number>
+      </property>
+      <property name="rightMargin">
+       <number>20</number>
+      </property>
+      <property name="bottomMargin">
+       <number>20</number>
+      </property>
+      <item row="0" column="0" alignment="Qt::AlignCenter">
+       <widget class="QFrame" name="loginCard">
+        <property name="minimumSize">
+         <size>
+          <width>440</width>
+          <height>390</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>480</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <layout class="QVBoxLayout" name="cardLayout">
+         <property name="spacing">
+          <number>14</number>
+         </property>
+         <property name="leftMargin">
+          <number>28</number>
+         </property>
+         <property name="topMargin">
+          <number>28</number>
+         </property>
+         <property name="rightMargin">
+          <number>28</number>
+         </property>
+         <property name="bottomMargin">
+          <number>24</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="roleLabel">
+           <property name="text">
+            <string>ĐĂNG NHẬP QUẢN TRỊ VIÊN</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="fieldsLayout">
+           <property name="spacing">
+            <number>8</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="usernameLabel">
+             <property name="text">
+              <string>Tài khoản</string>
+             </property>
+             <property name="buddy">
+              <cstring>usernameEdit</cstring>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="usernameEdit">
+             <property name="placeholderText">
+              <string>Nhập tài khoản quản trị viên</string>
+             </property>
+             <property name="clearButtonEnabled">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="passwordLabel">
+             <property name="text">
+              <string>Mật khẩu</string>
+             </property>
+             <property name="buddy">
+              <cstring>passwordEdit</cstring>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="passwordEdit">
+             <property name="echoMode">
+              <enum>QLineEdit::Password</enum>
+             </property>
+             <property name="placeholderText">
+              <string>Nhập mật khẩu</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="showPasswordCheck">
+           <property name="text">
+            <string>Hiện mật khẩu</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="errorLabel">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>36</height>
+            </size>
+           </property>
+           <property name="text">
+            <string />
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="buttonsLayout">
+           <property name="spacing">
+            <number>10</number>
+           </property>
+           <item>
+            <widget class="QPushButton" name="cancelButton">
+             <property name="text">
+              <string>Thoát</string>
+             </property>
+             <property name="autoDefault">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="loginButton">
+             <property name="text">
+              <string>Đăng nhập</string>
+             </property>
+             <property name="default">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>usernameEdit</tabstop>
+  <tabstop>passwordEdit</tabstop>
+  <tabstop>showPasswordCheck</tabstop>
+  <tabstop>loginButton</tabstop>
+  <tabstop>cancelButton</tabstop>
+ </tabstops>
+ <resources>
+  <include location="resources.qrc" />
+ </resources>
+ <connections />
+</ui>

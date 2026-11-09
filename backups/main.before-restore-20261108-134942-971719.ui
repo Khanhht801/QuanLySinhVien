@@ -1,0 +1,3977 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="font">
+   <font>
+    <family>Segoe UI</family>
+    <pointsize>9</pointsize>
+   </font>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="resources.qrc">
+    <normaloff>:/icons/app.svg</normaloff>:/icons/app.svg</iconset>
+  </property>
+  <property name="styleSheet">
+   <string>QMainWindow, QWidget#centralwidget { background: #f6f8fb; color: #121820; }
+QWidget { font-family: "Segoe UI"; }
+QFrame#header { border-image: url(:/icons/header.svg) 0 0 0 0 stretch stretch; }
+QLabel#titleLabel, QLabel#subtitleLabel { color: white; background: transparent; }
+QTabWidget::pane { border: 1px solid #b5c0ce; border-left: 0; border-right: 0; border-bottom: 0; top: -1px; background: #f8fafc; }
+QTabWidget::tab-bar { left: 16px; }
+QTabBar::tab { color: #151b23; background: qlineargradient(x1:0,y1:0,x2:0,y2:1,stop:0 #edf1f6,stop:1 #e4eaf0); border: 1px solid #bbc6d3; border-top-left-radius: 7px; border-top-right-radius: 7px; padding: 9px 14px; margin-top: 8px; min-height: 18px; }
+QTabBar::tab:selected { background: #fafcfe; border-bottom-color: #fafcfe; font-weight: bold; }
+QTabBar::tab:hover { background: #eef6ff; }
+QFrame#studentCard, QFrame#subjectCard { background: #f1f5f9; border: 1px solid #d6e0ec; border-radius: 7px; }
+QLabel#studentHeading, QLabel#subjectHeading { background: #d1e5f9; color: #0056b7; border: none; border-top-left-radius: 6px; border-top-right-radius: 6px; padding: 4px 12px; font-weight: bold; }
+QLineEdit, QComboBox, QSpinBox, QDoubleSpinBox { background: #ffffff; color: #111820; border: 1px solid #aebccc; border-radius: 5px; padding: 3px 8px; selection-background-color: #bde1ff; selection-color: #101820; }
+QLineEdit:focus, QComboBox:focus, QSpinBox:focus, QDoubleSpinBox:focus { border: 1px solid #1683d5; }
+QLineEdit { min-width: 40px; }
+QComboBox { padding-right: 30px; }
+QComboBox::drop-down { border: none; width: 30px; }
+QComboBox::down-arrow { image: url(:/icons/chevron.svg); width: 14px; height: 14px; }
+QSpinBox, QDoubleSpinBox { padding-right: 30px; }
+QSpinBox::up-button, QDoubleSpinBox::up-button { subcontrol-origin: border; subcontrol-position: top right; width: 27px; border-left: 1px solid #eef1f5; }
+QSpinBox::down-button, QDoubleSpinBox::down-button { subcontrol-origin: border; subcontrol-position: bottom right; width: 27px; border-left: 1px solid #eef1f5; }
+QSpinBox::up-arrow, QDoubleSpinBox::up-arrow { image: url(:/icons/up.svg); width: 12px; height: 10px; }
+QSpinBox::down-arrow, QDoubleSpinBox::down-arrow { image: url(:/icons/down.svg); width: 12px; height: 10px; }
+QLabel#totalScoreLabel { background: #cef0d5; border-radius: 6px; color: #101c16; font-weight: bold; }
+QFrame#searchBar { background: #f0f3f7; border-radius: 7px; }
+QTableWidget { background: #fff; alternate-background-color: #fafbfd; border: 1px solid #a8b5c5; border-radius: 5px; gridline-color: #d5dce5; selection-background-color: #c6e7ff; selection-color: #101820; outline: 0; }
+QTableWidget#studentsTable::item { padding: 6px 8px; border: none; }
+QHeaderView::section { background: #f5f7fa; color: #111820; border: none; border-right: 1px solid #c1cbd7; border-bottom: 1px solid #c1cbd7; padding: 7px 4px; font-weight: bold; }
+QTableCornerButton::section { background: #f5f7fa; border: none; }
+QPushButton { background: qlineargradient(x1:0,y1:0,x2:0,y2:1,stop:0 #ffffff,stop:1 #f0f3f7); border: 1px solid #aab7c8; border-radius: 6px; padding: 5px 10px; color: #111820; }
+QPushButton:hover { border-color: #1683d5; background: #eaf4ff; }
+QPushButton:pressed { background: #d7eaff; }
+QPushButton#addButton { background: #25bc43; border-color: #1aa335; color: white; }
+QPushButton#addButton:hover { background: #20a93b; }
+QPushButton#editButton { color: #626e7a; }
+QPushButton#deleteButton { border-color: #fa4147; color: #ec2028; background: #ffffff; }
+QPushButton#deleteButton:hover { background: #fff0f1; }
+QFrame#sidebarDivider { color: #e1e6ee; }
+
+QScrollArea#sidebarScroll, QWidget#sidebar, QWidget#sidebarColumn { background: transparent; }
+/* Semester overview */
+QWidget#summaryContent, QWidget#summaryBottom, QScrollArea#summaryScroll { background: #f8fafc; }
+QFrame#summaryGradesCard, QFrame#subjectsCard, QFrame#statisticsCard, QFrame#summaryActionsCard {
+ background: #ffffff; border: 1px solid #cbdced; border-radius: 7px;
+}
+QFrame#summaryToolbar, QFrame#subjectsCardHeader, QFrame#statisticsCardHeader, QFrame#summaryActionsCardHeader {
+ background: qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 #d7eaff,stop:1 #c9e0fc);
+ border: none; border-top-left-radius: 7px; border-top-right-radius: 7px;
+}
+QLabel#summaryHeading, QLabel#subjectsCardTitle, QLabel#statisticsCardTitle, QLabel#summaryActionsCardTitle { color: #004cce; }
+QTableWidget#summaryTable, QTableWidget#subjectsTable { border: 1px solid #c0d0e3; gridline-color: #c7d1df; border-radius: 5px; alternate-background-color: #fafcff; }
+QTableWidget#summaryTable QHeaderView::section, QTableWidget#subjectsTable QHeaderView::section {
+ background: qlineargradient(x1:0,y1:0,x2:0,y2:1,stop:0 #d7eaff,stop:1 #c7e0fa);
+ border-right: 1px solid #a9c8ed; border-bottom: 1px solid #b7cce5; padding: 5px 3px;
+}
+QFrame#totalStudentsCard { background: #e0fbd9; border: none; border-radius: 7px; }
+QPushButton#summarySearchButton { background: #0079e8; border-color: #0069ce; color: white; padding: 4px 12px; }
+QPushButton#summarySearchButton:hover { background: #0069cd; }
+QPushButton#summaryRefreshButton { background: #eff6ff; border-color: #71aaff; color: #064fdf; padding: 6px 9px; }
+QPushButton#summaryRefreshButton:hover { background: #dcecff; }
+QPushButton#summaryExportButton { background: #effded; border-color: #47ae50; color: #078421; padding: 6px 9px; }
+QPushButton#summaryExportButton:hover { background: #dbf6d6; }
+</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="mainLayout">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="QFrame" name="header">
+      <layout class="QHBoxLayout" name="headerLayout">
+       <item>
+        <widget class="QLabel" name="logoLabel">
+         <property name="text">
+          <string />
+         </property>
+         <property name="pixmap">
+          <pixmap resource="resources.qrc">:/icons/graduate.svg</pixmap>
+         </property>
+         <property name="scaledContents">
+          <bool>true</bool>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>66</width>
+           <height>48</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>66</width>
+           <height>48</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="titleLayout">
+         <property name="spacing">
+          <number>2</number>
+         </property>
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="titleLabel">
+           <property name="font">
+            <font>
+             <family>Segoe UI</family>
+             <pointsize>20</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>Quản lý điểm sinh viên</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="subtitleLabel">
+           <property name="font">
+            <font>
+             <family>Segoe UI</family>
+             <pointsize>10</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Lớp K10TIN  |  Học kỳ 1</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer name="headerSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>24</width>
+           <height>12</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <property name="leftMargin">
+        <number>12</number>
+       </property>
+       <property name="topMargin">
+        <number>12</number>
+       </property>
+       <property name="rightMargin">
+        <number>12</number>
+       </property>
+       <property name="bottomMargin">
+        <number>12</number>
+       </property>
+       <property name="spacing">
+        <number>12</number>
+       </property>
+      </layout>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>68</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>68</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QTabWidget" name="mainTabs">
+      <property name="font">
+       <font>
+        <family>Segoe UI</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <widget class="QWidget" name="entryTab">
+       <property name="font">
+        <font>
+         <family>Segoe UI</family>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+       <attribute name="icon">
+        <iconset resource="resources.qrc">
+         <normaloff>:/icons/person.svg</normaloff>:/icons/person.svg</iconset>
+       </attribute>
+       <attribute name="title">
+        <string>Nhập điểm</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="entryLayout" stretch="0,1">
+        <item>
+         <widget class="QWidget" name="sidebarColumn">
+          <property name="minimumSize">
+           <size>
+            <width>310</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>350</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <layout class="QVBoxLayout" name="sidebarColumnLayout">
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <property name="spacing">
+            <number>8</number>
+           </property>
+           <item>
+            <widget class="QScrollArea" name="sidebarScroll">
+             <property name="widgetResizable">
+              <bool>true</bool>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::NoFrame</enum>
+             </property>
+             <property name="horizontalScrollBarPolicy">
+              <enum>Qt::ScrollBarAlwaysOff</enum>
+             </property>
+             <widget class="QWidget" name="sidebar">
+              <layout class="QVBoxLayout" name="sidebarLayout">
+               <item>
+                <widget class="QFrame" name="studentCard">
+                 <layout class="QVBoxLayout" name="studentCardLayout">
+                  <property name="spacing">
+                   <number>0</number>
+                  </property>
+                  <property name="leftMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QLabel" name="studentHeading">
+                    <property name="font">
+                     <font>
+                      <family>Segoe UI</family>
+                      <pointsize>11</pointsize>
+                      <weight>75</weight>
+                      <bold>true</bold>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Thông tin sinh viên</string>
+                    </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>26</height>
+                     </size>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QWidget" name="studentFields">
+                    <layout class="QGridLayout" name="studentForm">
+                     <item row="0" column="0">
+                      <widget class="QLabel" name="studentIdEditLabel">
+                       <property name="text">
+                        <string>Mã SV:</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="1">
+                      <widget class="QLineEdit" name="studentIdEdit">
+                       <property name="text">
+                        <string>SV001</string>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>0</width>
+                         <height>28</height>
+                        </size>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="1" column="0">
+                      <widget class="QLabel" name="fullNameEditLabel">
+                       <property name="text">
+                        <string>Họ tên:</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="1" column="1">
+                      <widget class="QLineEdit" name="fullNameEdit">
+                       <property name="text">
+                        <string>Nguyễn Văn An</string>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>0</width>
+                         <height>28</height>
+                        </size>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="2" column="0">
+                      <widget class="QLabel" name="classEditLabel">
+                       <property name="text">
+                        <string>Lớp:</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="2" column="1">
+                      <widget class="QLineEdit" name="classEdit">
+                       <property name="text">
+                        <string>CNTT K18</string>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>0</width>
+                         <height>28</height>
+                        </size>
+                       </property>
+                      </widget>
+                     </item>
+                     <property name="leftMargin">
+                      <number>8</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>8</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>8</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>8</number>
+                     </property>
+                     <property name="spacing">
+                      <number>6</number>
+                     </property>
+                    </layout>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QFrame" name="subjectCard">
+                 <layout class="QVBoxLayout" name="subjectCardLayout">
+                  <property name="spacing">
+                   <number>0</number>
+                  </property>
+                  <property name="leftMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QLabel" name="subjectHeading">
+                    <property name="font">
+                     <font>
+                      <family>Segoe UI</family>
+                      <pointsize>11</pointsize>
+                      <weight>75</weight>
+                      <bold>true</bold>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Thông tin môn học</string>
+                    </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>26</height>
+                     </size>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QWidget" name="subjectFields">
+                    <layout class="QGridLayout" name="subjectForm">
+                     <item row="0" column="0">
+                      <widget class="QLabel" name="subjectLabel">
+                       <property name="text">
+                        <string>Môn học:</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="1">
+                      <widget class="QComboBox" name="subjectCombo">
+                       <item>
+                        <property name="text">
+                         <string>Lập trình Python</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>Cơ sở dữ liệu</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>Toán rời rạc</string>
+                        </property>
+                       </item>
+                       <property name="minimumSize">
+                        <size>
+                         <width>0</width>
+                         <height>28</height>
+                        </size>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="1" column="0">
+                      <widget class="QLabel" name="regularScoreSpinLabel">
+                       <property name="text">
+                        <string>Điểm thường xuyên:</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="1" column="1" alignment="Qt::AlignHCenter">
+                      <widget class="QDoubleSpinBox" name="regularScoreSpin">
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
+                       </property>
+                       <property name="decimals">
+                        <number>1</number>
+                       </property>
+                       <property name="minimum">
+                        <double>0.000000000000000</double>
+                       </property>
+                       <property name="maximum">
+                        <double>10.000000000000000</double>
+                       </property>
+                       <property name="singleStep">
+                        <double>0.500000000000000</double>
+                       </property>
+                       <property name="value">
+                        <double>8.000000000000000</double>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>88</width>
+                         <height>26</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>104</width>
+                         <height>26</height>
+                        </size>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="2" column="0">
+                      <widget class="QLabel" name="midtermScoreSpinLabel">
+                       <property name="text">
+                        <string>Điểm giữa kỳ:</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="2" column="1" alignment="Qt::AlignHCenter">
+                      <widget class="QDoubleSpinBox" name="midtermScoreSpin">
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
+                       </property>
+                       <property name="decimals">
+                        <number>1</number>
+                       </property>
+                       <property name="minimum">
+                        <double>0.000000000000000</double>
+                       </property>
+                       <property name="maximum">
+                        <double>10.000000000000000</double>
+                       </property>
+                       <property name="singleStep">
+                        <double>0.500000000000000</double>
+                       </property>
+                       <property name="value">
+                        <double>7.500000000000000</double>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>88</width>
+                         <height>26</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>104</width>
+                         <height>26</height>
+                        </size>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="3" column="0">
+                      <widget class="QLabel" name="finalScoreSpinLabel">
+                       <property name="text">
+                        <string>Điểm cuối kỳ:</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="3" column="1" alignment="Qt::AlignHCenter">
+                      <widget class="QDoubleSpinBox" name="finalScoreSpin">
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
+                       </property>
+                       <property name="decimals">
+                        <number>1</number>
+                       </property>
+                       <property name="minimum">
+                        <double>0.000000000000000</double>
+                       </property>
+                       <property name="maximum">
+                        <double>10.000000000000000</double>
+                       </property>
+                       <property name="singleStep">
+                        <double>0.500000000000000</double>
+                       </property>
+                       <property name="value">
+                        <double>9.000000000000000</double>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>88</width>
+                         <height>26</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>104</width>
+                         <height>26</height>
+                        </size>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="4" column="0">
+                      <widget class="QLabel" name="totalCaption">
+                       <property name="font">
+                        <font>
+                         <family>Segoe UI</family>
+                         <pointsize>10</pointsize>
+                         <weight>75</weight>
+                         <bold>true</bold>
+                        </font>
+                       </property>
+                       <property name="text">
+                        <string>Điểm tổng kết:</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="4" column="1" alignment="Qt::AlignHCenter">
+                      <widget class="QLabel" name="totalScoreLabel">
+                       <property name="font">
+                        <font>
+                         <family>Segoe UI</family>
+                         <pointsize>16</pointsize>
+                         <weight>75</weight>
+                         <bold>true</bold>
+                        </font>
+                       </property>
+                       <property name="text">
+                        <string>8.5</string>
+                       </property>
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>104</width>
+                         <height>32</height>
+                        </size>
+                       </property>
+                      </widget>
+                     </item>
+                     <property name="leftMargin">
+                      <number>8</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>8</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>8</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>8</number>
+                     </property>
+                     <property name="spacing">
+                      <number>6</number>
+                     </property>
+                    </layout>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <spacer name="sidebarBottomSpace">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>24</width>
+                   <height>12</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <property name="spacing">
+                <number>8</number>
+               </property>
+              </layout>
+             </widget>
+            </widget>
+           </item>
+           <item>
+            <widget class="QFrame" name="sidebarDivider">
+             <property name="frameShape">
+              <enum>QFrame::HLine</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Plain</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="studentActionLayout">
+             <item>
+              <widget class="QPushButton" name="addButton">
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
+               <property name="text">
+                <string> Thêm</string>
+               </property>
+               <property name="icon">
+                <iconset resource="resources.qrc">
+                 <normaloff>:/icons/plus.svg</normaloff>:/icons/plus.svg</iconset>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>80</width>
+                 <height>32</height>
+                </size>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>18</width>
+                 <height>18</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="editButton">
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
+               <property name="text">
+                <string> Sửa</string>
+               </property>
+               <property name="icon">
+                <iconset resource="resources.qrc">
+                 <normaloff>:/icons/edit.svg</normaloff>:/icons/edit.svg</iconset>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>80</width>
+                 <height>32</height>
+                </size>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>18</width>
+                 <height>18</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="deleteButton">
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
+               <property name="text">
+                <string> Xóa</string>
+               </property>
+               <property name="icon">
+                <iconset resource="resources.qrc">
+                 <normaloff>:/icons/delete.svg</normaloff>:/icons/delete.svg</iconset>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>80</width>
+                 <height>32</height>
+                </size>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>18</width>
+                 <height>18</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <property name="spacing">
+              <number>8</number>
+             </property>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QWidget" name="tableArea">
+          <layout class="QVBoxLayout" name="tableAreaLayout">
+           <item>
+            <widget class="QFrame" name="searchBar">
+             <layout class="QHBoxLayout" name="searchLayout">
+              <item>
+               <widget class="QLabel" name="searchCaption">
+                <property name="text">
+                 <string>Tìm kiếm sinh viên:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="searchEdit">
+                <property name="text">
+                 <string />
+                </property>
+                <property name="placeholderText">
+                 <string>Nhập mã SV hoặc họ tên...</string>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>80</width>
+                  <height>28</height>
+                 </size>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="searchSpacer">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>24</width>
+                  <height>12</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QLabel" name="filterSubjectLabel">
+                <property name="text">
+                 <string>Môn học:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QComboBox" name="filterSubjectCombo">
+                <item>
+                 <property name="text">
+                  <string>Lập trình Python</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Cơ sở dữ liệu</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Toán rời rạc</string>
+                 </property>
+                </item>
+                <property name="minimumSize">
+                 <size>
+                  <width>140</width>
+                  <height>28</height>
+                 </size>
+                </property>
+               </widget>
+              </item>
+              <property name="leftMargin">
+               <number>8</number>
+              </property>
+              <property name="topMargin">
+               <number>8</number>
+              </property>
+              <property name="rightMargin">
+               <number>8</number>
+              </property>
+              <property name="bottomMargin">
+               <number>8</number>
+              </property>
+              <property name="spacing">
+               <number>8</number>
+              </property>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QTableWidget" name="studentsTable">
+             <property name="editTriggers">
+              <set>QAbstractItemView::NoEditTriggers</set>
+             </property>
+             <property name="alternatingRowColors">
+              <bool>true</bool>
+             </property>
+             <property name="selectionMode">
+              <enum>QAbstractItemView::SingleSelection</enum>
+             </property>
+             <property name="selectionBehavior">
+              <enum>QAbstractItemView::SelectRows</enum>
+             </property>
+             <property name="showGrid">
+              <bool>true</bool>
+             </property>
+             <property name="sortingEnabled">
+              <bool>false</bool>
+             </property>
+             <property name="rowCount">
+              <number>5</number>
+             </property>
+             <property name="columnCount">
+              <number>7</number>
+             </property>
+             <attribute name="horizontalHeaderDefaultSectionSize">
+              <number>115</number>
+             </attribute>
+             <attribute name="horizontalHeaderStretchLastSection">
+              <bool>true</bool>
+             </attribute>
+             <attribute name="verticalHeaderVisible">
+              <bool>false</bool>
+             </attribute>
+             <attribute name="verticalHeaderDefaultSectionSize">
+              <number>42</number>
+             </attribute>
+             <row />
+             <row />
+             <row />
+             <row />
+             <row />
+             <column>
+              <property name="text">
+               <string>STT</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Mã SV</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Họ tên</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Điểm TX</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Điểm GK</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Điểm CK</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Điểm TK</string>
+              </property>
+             </column>
+             <item row="0" column="0">
+              <property name="text">
+               <string>1</string>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
+              <property name="textAlignment">
+               <set>AlignCenter</set>
+              </property>
+              <property name="background">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>208</red>
+                 <green>234</green>
+                 <blue>252</blue>
+                </color>
+               </brush>
+              </property>
+             </item>
+             <item row="0" column="1">
+              <property name="text">
+               <string>SV001</string>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
+              <property name="textAlignment">
+               <set>AlignCenter</set>
+              </property>
+              <property name="background">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>208</red>
+                 <green>234</green>
+                 <blue>252</blue>
+                </color>
+               </brush>
+              </property>
+             </item>
+             <item row="0" column="2">
+              <property name="text">
+               <string>Nguyễn Văn An</string>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
+              <property name="textAlignment">
+               <set>AlignLeading|AlignVCenter</set>
+              </property>
+              <property name="background">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>208</red>
+                 <green>234</green>
+                 <blue>252</blue>
+                </color>
+               </brush>
+              </property>
+             </item>
+             <item row="0" column="3">
+              <property name="text">
+               <string>8.0</string>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
+              <property name="textAlignment">
+               <set>AlignCenter</set>
+              </property>
+              <property name="background">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>208</red>
+                 <green>234</green>
+                 <blue>252</blue>
+                </color>
+               </brush>
+              </property>
+             </item>
+             <item row="0" column="4">
+              <property name="text">
+               <string>7.5</string>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
+              <property name="textAlignment">
+               <set>AlignCenter</set>
+              </property>
+              <property name="background">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>208</red>
+                 <green>234</green>
+                 <blue>252</blue>
+                </color>
+               </brush>
+              </property>
+             </item>
+             <item row="0" column="5">
+              <property name="text">
+               <string>9.0</string>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
+              <property name="textAlignment">
+               <set>AlignCenter</set>
+              </property>
+              <property name="background">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>208</red>
+                 <green>234</green>
+                 <blue>252</blue>
+                </color>
+               </brush>
+              </property>
+             </item>
+             <item row="0" column="6">
+              <property name="text">
+               <string>8.5</string>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>9</pointsize>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="textAlignment">
+               <set>AlignCenter</set>
+              </property>
+              <property name="background">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>208</red>
+                 <green>234</green>
+                 <blue>252</blue>
+                </color>
+               </brush>
+              </property>
+             </item>
+             <item row="1" column="0">
+              <property name="text">
+               <string>2</string>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
+              <property name="textAlignment">
+               <set>AlignCenter</set>
+              </property>
+             </item>
+             <item row="1" column="1">
+              <property name="text">
+               <string>SV002</string>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
+              <property name="textAlignment">
+               <set>AlignCenter</set>
+              </property>
+             </item>
+             <item row="1" column="2">
+              <property name="text">
+               <string>Trần Thị Bình</string>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
+              <property name="textAlignment">
+               <set>AlignLeading|AlignVCenter</set>
+              </property>
+             </item>
+             <item row="1" column="3">
+              <property name="text">
+               <string>7.5</string>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
+              <property name="textAlignment">
+               <set>AlignCenter</set>
+              </property>
+             </item>
+             <item row="1" column="4">
+              <property name="text">
+               <string>7.0</string>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
+              <property name="textAlignment">
+               <set>AlignCenter</set>
+              </property>
+             </item>
+             <item row="1" column="5">
+              <property name="text">
+               <string>8.0</string>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
+              <property name="textAlignment">
+               <set>AlignCenter</set>
+              </property>
+             </item>
+             <item row="1" column="6">
+              <property name="text">
+               <string>7.6</string>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>9</pointsize>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="textAlignment">
+               <set>AlignCenter</set>
+              </property>
+             </item>
+             <item row="2" column="0">
+              <property name="text">
+               <string>3</string>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
+              <property name="textAlignment">
+               <set>AlignCenter</set>
+              </property>
+             </item>
+             <item row="2" column="1">
+              <property name="text">
+               <string>SV003</string>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
+              <property name="textAlignment">
+               <set>AlignCenter</set>
+              </property>
+             </item>
+             <item row="2" column="2">
+              <property name="text">
+               <string>Lê Minh Châu</string>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
+              <property name="textAlignment">
+               <set>AlignLeading|AlignVCenter</set>
+              </property>
+             </item>
+             <item row="2" column="3">
+              <property name="text">
+               <string>9.0</string>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
+              <property name="textAlignment">
+               <set>AlignCenter</set>
+              </property>
+             </item>
+             <item row="2" column="4">
+              <property name="text">
+               <string>8.5</string>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
+              <property name="textAlignment">
+               <set>AlignCenter</set>
+              </property>
+             </item>
+             <item row="2" column="5">
+              <property name="text">
+               <string>9.5</string>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
+              <property name="textAlignment">
+               <set>AlignCenter</set>
+              </property>
+             </item>
+             <item row="2" column="6">
+              <property name="text">
+               <string>9.1</string>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>9</pointsize>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="textAlignment">
+               <set>AlignCenter</set>
+              </property>
+             </item>
+             <item row="3" column="0">
+              <property name="text">
+               <string>4</string>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
+              <property name="textAlignment">
+               <set>AlignCenter</set>
+              </property>
+             </item>
+             <item row="3" column="1">
+              <property name="text">
+               <string>SV004</string>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
+              <property name="textAlignment">
+               <set>AlignCenter</set>
+              </property>
+             </item>
+             <item row="3" column="2">
+              <property name="text">
+               <string>Phạm Quốc Dũng</string>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
+              <property name="textAlignment">
+               <set>AlignLeading|AlignVCenter</set>
+              </property>
+             </item>
+             <item row="3" column="3">
+              <property name="text">
+               <string>6.5</string>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
+              <property name="textAlignment">
+               <set>AlignCenter</set>
+              </property>
+             </item>
+             <item row="3" column="4">
+              <property name="text">
+               <string>7.0</string>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
+              <property name="textAlignment">
+               <set>AlignCenter</set>
+              </property>
+             </item>
+             <item row="3" column="5">
+              <property name="text">
+               <string>7.5</string>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
+              <property name="textAlignment">
+               <set>AlignCenter</set>
+              </property>
+             </item>
+             <item row="3" column="6">
+              <property name="text">
+               <string>7.1</string>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>9</pointsize>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="textAlignment">
+               <set>AlignCenter</set>
+              </property>
+             </item>
+             <item row="4" column="0">
+              <property name="text">
+               <string>5</string>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
+              <property name="textAlignment">
+               <set>AlignCenter</set>
+              </property>
+             </item>
+             <item row="4" column="1">
+              <property name="text">
+               <string>SV005</string>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
+              <property name="textAlignment">
+               <set>AlignCenter</set>
+              </property>
+             </item>
+             <item row="4" column="2">
+              <property name="text">
+               <string>Hoàng Thị Giang</string>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
+              <property name="textAlignment">
+               <set>AlignLeading|AlignVCenter</set>
+              </property>
+             </item>
+             <item row="4" column="3">
+              <property name="text">
+               <string>8.0</string>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
+              <property name="textAlignment">
+               <set>AlignCenter</set>
+              </property>
+             </item>
+             <item row="4" column="4">
+              <property name="text">
+               <string>8.0</string>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
+              <property name="textAlignment">
+               <set>AlignCenter</set>
+              </property>
+             </item>
+             <item row="4" column="5">
+              <property name="text">
+               <string>8.5</string>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
+              <property name="textAlignment">
+               <set>AlignCenter</set>
+              </property>
+             </item>
+             <item row="4" column="6">
+              <property name="text">
+               <string>8.3</string>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>9</pointsize>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="textAlignment">
+               <set>AlignCenter</set>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="tableActionLayout">
+             <item>
+              <spacer name="footerSpacer">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>24</width>
+                 <height>12</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QPushButton" name="refreshButton">
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
+               <property name="text">
+                <string> Làm mới</string>
+               </property>
+               <property name="icon">
+                <iconset resource="resources.qrc">
+                 <normaloff>:/icons/refresh.svg</normaloff>:/icons/refresh.svg</iconset>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>80</width>
+                 <height>32</height>
+                </size>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>18</width>
+                 <height>18</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="exportButton">
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
+               <property name="text">
+                <string> Xuất Excel</string>
+               </property>
+               <property name="icon">
+                <iconset resource="resources.qrc">
+                 <normaloff>:/icons/excel.svg</normaloff>:/icons/excel.svg</iconset>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>80</width>
+                 <height>32</height>
+                </size>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>18</width>
+                 <height>18</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="closeButton">
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
+               <property name="text">
+                <string> Đóng</string>
+               </property>
+               <property name="icon">
+                <iconset resource="resources.qrc">
+                 <normaloff>:/icons/delete.svg</normaloff>:/icons/delete.svg</iconset>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>80</width>
+                 <height>32</height>
+                </size>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>18</width>
+                 <height>18</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <property name="spacing">
+              <number>8</number>
+             </property>
+            </layout>
+           </item>
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <property name="spacing">
+            <number>8</number>
+           </property>
+          </layout>
+         </widget>
+        </item>
+        <property name="leftMargin">
+         <number>12</number>
+        </property>
+        <property name="topMargin">
+         <number>12</number>
+        </property>
+        <property name="rightMargin">
+         <number>12</number>
+        </property>
+        <property name="bottomMargin">
+         <number>12</number>
+        </property>
+        <property name="spacing">
+         <number>12</number>
+        </property>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="summaryTab">
+       <property name="font">
+        <font>
+         <family>Segoe UI</family>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+       <attribute name="icon">
+        <iconset resource="resources.qrc">
+         <normaloff>:/icons/chart.svg</normaloff>:/icons/chart.svg</iconset>
+       </attribute>
+       <attribute name="title">
+        <string>Bảng điểm tổng hợp</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="summaryPageLayout">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <property name="spacing">
+         <number>8</number>
+        </property>
+        <item>
+         <widget class="QScrollArea" name="summaryScroll">
+          <property name="frameShape">
+           <enum>QFrame::NoFrame</enum>
+          </property>
+          <property name="widgetResizable">
+           <bool>true</bool>
+          </property>
+          <property name="horizontalScrollBarPolicy">
+           <enum>Qt::ScrollBarAlwaysOff</enum>
+          </property>
+          <widget class="QWidget" name="summaryContent">
+           <layout class="QVBoxLayout" name="summaryContentLayout" stretch="3,2">
+            <property name="leftMargin">
+             <number>12</number>
+            </property>
+            <property name="topMargin">
+             <number>12</number>
+            </property>
+            <property name="rightMargin">
+             <number>12</number>
+            </property>
+            <property name="bottomMargin">
+             <number>12</number>
+            </property>
+            <property name="spacing">
+             <number>12</number>
+            </property>
+            <item>
+             <widget class="QFrame" name="summaryGradesCard">
+              <layout class="QVBoxLayout" name="summaryGradesLayout">
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <property name="spacing">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QFrame" name="summaryToolbar">
+                 <layout class="QHBoxLayout" name="summaryToolbarLayout" stretch="0,1,0,1,0">
+                  <property name="leftMargin">
+                   <number>5</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>5</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>5</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>5</number>
+                  </property>
+                  <property name="spacing">
+                   <number>8</number>
+                  </property>
+                  <item>
+                   <widget class="QLabel" name="summaryTitleIcon">
+                    <property name="text">
+                     <string />
+                    </property>
+                    <property name="font">
+                     <font>
+                      <family>Segoe UI</family>
+                      <pointsize>9</pointsize>
+                      <bold>false</bold>
+                     </font>
+                    </property>
+                    <property name="pixmap">
+                     <pixmap>:/icons/chart.svg</pixmap>
+                    </property>
+                    <property name="scaledContents">
+                     <bool>true</bool>
+                    </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>20</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>20</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="summaryHeading">
+                    <property name="text">
+                     <string>Bảng điểm tổng hợp học kỳ</string>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <family>Segoe UI</family>
+                      <pointsize>12</pointsize>
+                      <bold>true</bold>
+                     </font>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="summarySearchCaption">
+                    <property name="text">
+                     <string>Tìm sinh viên:</string>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <family>Segoe UI</family>
+                      <pointsize>9</pointsize>
+                      <bold>false</bold>
+                     </font>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="summarySearchEdit">
+                    <property name="placeholderText">
+                     <string>Nhập mã SV hoặc họ tên...</string>
+                    </property>
+                    <property name="clearButtonEnabled">
+                     <bool>true</bool>
+                    </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>145</width>
+                      <height>28</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>270</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="summarySearchButton">
+                    <property name="text">
+                     <string> Tìm</string>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <family>Segoe UI</family>
+                      <pointsize>10</pointsize>
+                      <bold>true</bold>
+                     </font>
+                    </property>
+                    <property name="icon">
+                     <iconset resource="resources.qrc">
+                      <normaloff>:/icons/search.svg</normaloff>
+                     </iconset>
+                    </property>
+                    <property name="iconSize">
+                     <size>
+                      <width>18</width>
+                      <height>18</height>
+                     </size>
+                    </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>30</height>
+                     </size>
+                    </property>
+                    <property name="cursor">
+                     <cursorShape>PointingHandCursor</cursorShape>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QWidget" name="summaryTableBody">
+                 <layout class="QVBoxLayout" name="summaryTableBodyLayout">
+                  <property name="leftMargin">
+                   <number>6</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>6</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>6</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>6</number>
+                  </property>
+                  <property name="spacing">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QTableWidget" name="summaryTable">
+                    <property name="font">
+                     <font>
+                      <family>Segoe UI</family>
+                      <pointsize>9</pointsize>
+                      <bold>false</bold>
+                     </font>
+                    </property>
+                    <property name="rowCount">
+                     <number>5</number>
+                    </property>
+                    <property name="columnCount">
+                     <number>8</number>
+                    </property>
+                    <property name="editTriggers">
+                     <set>QAbstractItemView::NoEditTriggers</set>
+                    </property>
+                    <property name="selectionBehavior">
+                     <enum>QAbstractItemView::SelectRows</enum>
+                    </property>
+                    <property name="selectionMode">
+                     <enum>QAbstractItemView::SingleSelection</enum>
+                    </property>
+                    <property name="alternatingRowColors">
+                     <bool>true</bool>
+                    </property>
+                    <property name="sortingEnabled">
+                     <bool>false</bool>
+                    </property>
+                    <attribute name="verticalHeaderVisible">
+                     <bool>false</bool>
+                    </attribute>
+                    <attribute name="verticalHeaderDefaultSectionSize">
+                     <number>26</number>
+                    </attribute>
+                    <attribute name="horizontalHeaderDefaultSectionSize">
+                     <number>105</number>
+                    </attribute>
+                    <attribute name="horizontalHeaderStretchLastSection">
+                     <bool>true</bool>
+                    </attribute>
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <column>
+                     <property name="text">
+                      <string>STT</string>
+                     </property>
+                    </column>
+                    <column>
+                     <property name="text">
+                      <string>Mã SV</string>
+                     </property>
+                    </column>
+                    <column>
+                     <property name="text">
+                      <string>Họ và tên</string>
+                     </property>
+                    </column>
+                    <column>
+                     <property name="text">
+                      <string>Python
+(2 tín chỉ)</string>
+                     </property>
+                    </column>
+                    <column>
+                     <property name="text">
+                      <string>Cơ sở dữ liệu
+(3 tín chỉ)</string>
+                     </property>
+                    </column>
+                    <column>
+                     <property name="text">
+                      <string>Toán
+(2 tín chỉ)</string>
+                     </property>
+                    </column>
+                    <column>
+                     <property name="text">
+                      <string>Điểm TB
+(học kỳ)</string>
+                     </property>
+                    </column>
+                    <column>
+                     <property name="text">
+                      <string>Xếp loại</string>
+                     </property>
+                    </column>
+                    <item row="0" column="0">
+                     <property name="text">
+                      <string>1</string>
+                     </property>
+                     <property name="textAlignment">
+                      <set>AlignCenter</set>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI</family>
+                       <pointsize>9</pointsize>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </item>
+                    <item row="0" column="1">
+                     <property name="text">
+                      <string>SV001</string>
+                     </property>
+                     <property name="textAlignment">
+                      <set>AlignCenter</set>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI</family>
+                       <pointsize>9</pointsize>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </item>
+                    <item row="0" column="2">
+                     <property name="text">
+                      <string>Nguyễn Văn An</string>
+                     </property>
+                     <property name="textAlignment">
+                      <set>AlignLeft|AlignVCenter</set>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI</family>
+                       <pointsize>9</pointsize>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </item>
+                    <item row="0" column="3">
+                     <property name="text">
+                      <string>8.5</string>
+                     </property>
+                     <property name="textAlignment">
+                      <set>AlignCenter</set>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI</family>
+                       <pointsize>9</pointsize>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </item>
+                    <item row="0" column="4">
+                     <property name="text">
+                      <string>7.5</string>
+                     </property>
+                     <property name="textAlignment">
+                      <set>AlignCenter</set>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI</family>
+                       <pointsize>9</pointsize>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </item>
+                    <item row="0" column="5">
+                     <property name="text">
+                      <string>9.0</string>
+                     </property>
+                     <property name="textAlignment">
+                      <set>AlignCenter</set>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI</family>
+                       <pointsize>9</pointsize>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </item>
+                    <item row="0" column="6">
+                     <property name="text">
+                      <string>8.39</string>
+                     </property>
+                     <property name="textAlignment">
+                      <set>AlignCenter</set>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI</family>
+                       <pointsize>9</pointsize>
+                       <bold>true</bold>
+                      </font>
+                     </property>
+                     <property name="background">
+                      <brush brushstyle="SolidPattern">
+                       <color alpha="255">
+                        <red>223</red>
+                        <green>251</green>
+                        <blue>213</blue>
+                       </color>
+                      </brush>
+                     </property>
+                    </item>
+                    <item row="0" column="7">
+                     <property name="text">
+                      <string>Giỏi</string>
+                     </property>
+                     <property name="textAlignment">
+                      <set>AlignCenter</set>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI</family>
+                       <pointsize>9</pointsize>
+                       <bold>true</bold>
+                      </font>
+                     </property>
+                     <property name="background">
+                      <brush brushstyle="SolidPattern">
+                       <color alpha="255">
+                        <red>223</red>
+                        <green>251</green>
+                        <blue>213</blue>
+                       </color>
+                      </brush>
+                     </property>
+                     <property name="foreground">
+                      <brush brushstyle="SolidPattern">
+                       <color alpha="255">
+                        <red>8</red>
+                        <green>125</green>
+                        <blue>32</blue>
+                       </color>
+                      </brush>
+                     </property>
+                    </item>
+                    <item row="1" column="0">
+                     <property name="text">
+                      <string>2</string>
+                     </property>
+                     <property name="textAlignment">
+                      <set>AlignCenter</set>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI</family>
+                       <pointsize>9</pointsize>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </item>
+                    <item row="1" column="1">
+                     <property name="text">
+                      <string>SV002</string>
+                     </property>
+                     <property name="textAlignment">
+                      <set>AlignCenter</set>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI</family>
+                       <pointsize>9</pointsize>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </item>
+                    <item row="1" column="2">
+                     <property name="text">
+                      <string>Trần Thị Bình</string>
+                     </property>
+                     <property name="textAlignment">
+                      <set>AlignLeft|AlignVCenter</set>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI</family>
+                       <pointsize>9</pointsize>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </item>
+                    <item row="1" column="3">
+                     <property name="text">
+                      <string>7.0</string>
+                     </property>
+                     <property name="textAlignment">
+                      <set>AlignCenter</set>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI</family>
+                       <pointsize>9</pointsize>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </item>
+                    <item row="1" column="4">
+                     <property name="text">
+                      <string>8.0</string>
+                     </property>
+                     <property name="textAlignment">
+                      <set>AlignCenter</set>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI</family>
+                       <pointsize>9</pointsize>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </item>
+                    <item row="1" column="5">
+                     <property name="text">
+                      <string>7.5</string>
+                     </property>
+                     <property name="textAlignment">
+                      <set>AlignCenter</set>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI</family>
+                       <pointsize>9</pointsize>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </item>
+                    <item row="1" column="6">
+                     <property name="text">
+                      <string>7.50</string>
+                     </property>
+                     <property name="textAlignment">
+                      <set>AlignCenter</set>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI</family>
+                       <pointsize>9</pointsize>
+                       <bold>true</bold>
+                      </font>
+                     </property>
+                     <property name="background">
+                      <brush brushstyle="SolidPattern">
+                       <color alpha="255">
+                        <red>255</red>
+                        <green>245</green>
+                        <blue>205</blue>
+                       </color>
+                      </brush>
+                     </property>
+                    </item>
+                    <item row="1" column="7">
+                     <property name="text">
+                      <string>Khá</string>
+                     </property>
+                     <property name="textAlignment">
+                      <set>AlignCenter</set>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI</family>
+                       <pointsize>9</pointsize>
+                       <bold>true</bold>
+                      </font>
+                     </property>
+                     <property name="background">
+                      <brush brushstyle="SolidPattern">
+                       <color alpha="255">
+                        <red>255</red>
+                        <green>245</green>
+                        <blue>205</blue>
+                       </color>
+                      </brush>
+                     </property>
+                     <property name="foreground">
+                      <brush brushstyle="SolidPattern">
+                       <color alpha="255">
+                        <red>8</red>
+                        <green>125</green>
+                        <blue>32</blue>
+                       </color>
+                      </brush>
+                     </property>
+                    </item>
+                    <item row="2" column="0">
+                     <property name="text">
+                      <string>3</string>
+                     </property>
+                     <property name="textAlignment">
+                      <set>AlignCenter</set>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI</family>
+                       <pointsize>9</pointsize>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </item>
+                    <item row="2" column="1">
+                     <property name="text">
+                      <string>SV003</string>
+                     </property>
+                     <property name="textAlignment">
+                      <set>AlignCenter</set>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI</family>
+                       <pointsize>9</pointsize>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </item>
+                    <item row="2" column="2">
+                     <property name="text">
+                      <string>Lê Minh Châu</string>
+                     </property>
+                     <property name="textAlignment">
+                      <set>AlignLeft|AlignVCenter</set>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI</family>
+                       <pointsize>9</pointsize>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </item>
+                    <item row="2" column="3">
+                     <property name="text">
+                      <string>9.0</string>
+                     </property>
+                     <property name="textAlignment">
+                      <set>AlignCenter</set>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI</family>
+                       <pointsize>9</pointsize>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </item>
+                    <item row="2" column="4">
+                     <property name="text">
+                      <string>9.5</string>
+                     </property>
+                     <property name="textAlignment">
+                      <set>AlignCenter</set>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI</family>
+                       <pointsize>9</pointsize>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </item>
+                    <item row="2" column="5">
+                     <property name="text">
+                      <string>8.5</string>
+                     </property>
+                     <property name="textAlignment">
+                      <set>AlignCenter</set>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI</family>
+                       <pointsize>9</pointsize>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </item>
+                    <item row="2" column="6">
+                     <property name="text">
+                      <string>9.66</string>
+                     </property>
+                     <property name="textAlignment">
+                      <set>AlignCenter</set>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI</family>
+                       <pointsize>9</pointsize>
+                       <bold>true</bold>
+                      </font>
+                     </property>
+                     <property name="background">
+                      <brush brushstyle="SolidPattern">
+                       <color alpha="255">
+                        <red>223</red>
+                        <green>251</green>
+                        <blue>213</blue>
+                       </color>
+                      </brush>
+                     </property>
+                    </item>
+                    <item row="2" column="7">
+                     <property name="text">
+                      <string>Xuất sắc</string>
+                     </property>
+                     <property name="textAlignment">
+                      <set>AlignCenter</set>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI</family>
+                       <pointsize>9</pointsize>
+                       <bold>true</bold>
+                      </font>
+                     </property>
+                     <property name="background">
+                      <brush brushstyle="SolidPattern">
+                       <color alpha="255">
+                        <red>223</red>
+                        <green>251</green>
+                        <blue>213</blue>
+                       </color>
+                      </brush>
+                     </property>
+                     <property name="foreground">
+                      <brush brushstyle="SolidPattern">
+                       <color alpha="255">
+                        <red>8</red>
+                        <green>125</green>
+                        <blue>32</blue>
+                       </color>
+                      </brush>
+                     </property>
+                    </item>
+                    <item row="3" column="0">
+                     <property name="text">
+                      <string>4</string>
+                     </property>
+                     <property name="textAlignment">
+                      <set>AlignCenter</set>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI</family>
+                       <pointsize>9</pointsize>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </item>
+                    <item row="3" column="1">
+                     <property name="text">
+                      <string>SV004</string>
+                     </property>
+                     <property name="textAlignment">
+                      <set>AlignCenter</set>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI</family>
+                       <pointsize>9</pointsize>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </item>
+                    <item row="3" column="2">
+                     <property name="text">
+                      <string>Phạm Quốc Dũng</string>
+                     </property>
+                     <property name="textAlignment">
+                      <set>AlignLeft|AlignVCenter</set>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI</family>
+                       <pointsize>9</pointsize>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </item>
+                    <item row="3" column="3">
+                     <property name="text">
+                      <string>6.0</string>
+                     </property>
+                     <property name="textAlignment">
+                      <set>AlignCenter</set>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI</family>
+                       <pointsize>9</pointsize>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </item>
+                    <item row="3" column="4">
+                     <property name="text">
+                      <string>7.0</string>
+                     </property>
+                     <property name="textAlignment">
+                      <set>AlignCenter</set>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI</family>
+                       <pointsize>9</pointsize>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </item>
+                    <item row="3" column="5">
+                     <property name="text">
+                      <string>6.5</string>
+                     </property>
+                     <property name="textAlignment">
+                      <set>AlignCenter</set>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI</family>
+                       <pointsize>9</pointsize>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </item>
+                    <item row="3" column="6">
+                     <property name="text">
+                      <string>6.56</string>
+                     </property>
+                     <property name="textAlignment">
+                      <set>AlignCenter</set>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI</family>
+                       <pointsize>9</pointsize>
+                       <bold>true</bold>
+                      </font>
+                     </property>
+                     <property name="background">
+                      <brush brushstyle="SolidPattern">
+                       <color alpha="255">
+                        <red>255</red>
+                        <green>220</green>
+                        <blue>216</blue>
+                       </color>
+                      </brush>
+                     </property>
+                    </item>
+                    <item row="3" column="7">
+                     <property name="text">
+                      <string>Trung bình</string>
+                     </property>
+                     <property name="textAlignment">
+                      <set>AlignCenter</set>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI</family>
+                       <pointsize>9</pointsize>
+                       <bold>true</bold>
+                      </font>
+                     </property>
+                     <property name="background">
+                      <brush brushstyle="SolidPattern">
+                       <color alpha="255">
+                        <red>255</red>
+                        <green>220</green>
+                        <blue>216</blue>
+                       </color>
+                      </brush>
+                     </property>
+                     <property name="foreground">
+                      <brush brushstyle="SolidPattern">
+                       <color alpha="255">
+                        <red>197</red>
+                        <green>29</green>
+                        <blue>29</blue>
+                       </color>
+                      </brush>
+                     </property>
+                    </item>
+                    <item row="4" column="0">
+                     <property name="text">
+                      <string>5</string>
+                     </property>
+                     <property name="textAlignment">
+                      <set>AlignCenter</set>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI</family>
+                       <pointsize>9</pointsize>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </item>
+                    <item row="4" column="1">
+                     <property name="text">
+                      <string>SV005</string>
+                     </property>
+                     <property name="textAlignment">
+                      <set>AlignCenter</set>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI</family>
+                       <pointsize>9</pointsize>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </item>
+                    <item row="4" column="2">
+                     <property name="text">
+                      <string>Hoàng Thị Giang</string>
+                     </property>
+                     <property name="textAlignment">
+                      <set>AlignLeft|AlignVCenter</set>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI</family>
+                       <pointsize>9</pointsize>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </item>
+                    <item row="4" column="3">
+                     <property name="text">
+                      <string>8.0</string>
+                     </property>
+                     <property name="textAlignment">
+                      <set>AlignCenter</set>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI</family>
+                       <pointsize>9</pointsize>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </item>
+                    <item row="4" column="4">
+                     <property name="text">
+                      <string>8.0</string>
+                     </property>
+                     <property name="textAlignment">
+                      <set>AlignCenter</set>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI</family>
+                       <pointsize>9</pointsize>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </item>
+                    <item row="4" column="5">
+                     <property name="text">
+                      <string>8.5</string>
+                     </property>
+                     <property name="textAlignment">
+                      <set>AlignCenter</set>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI</family>
+                       <pointsize>9</pointsize>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </item>
+                    <item row="4" column="6">
+                     <property name="text">
+                      <string>8.11</string>
+                     </property>
+                     <property name="textAlignment">
+                      <set>AlignCenter</set>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI</family>
+                       <pointsize>9</pointsize>
+                       <bold>true</bold>
+                      </font>
+                     </property>
+                     <property name="background">
+                      <brush brushstyle="SolidPattern">
+                       <color alpha="255">
+                        <red>223</red>
+                        <green>251</green>
+                        <blue>213</blue>
+                       </color>
+                      </brush>
+                     </property>
+                    </item>
+                    <item row="4" column="7">
+                     <property name="text">
+                      <string>Giỏi</string>
+                     </property>
+                     <property name="textAlignment">
+                      <set>AlignCenter</set>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI</family>
+                       <pointsize>9</pointsize>
+                       <bold>true</bold>
+                      </font>
+                     </property>
+                     <property name="background">
+                      <brush brushstyle="SolidPattern">
+                       <color alpha="255">
+                        <red>223</red>
+                        <green>251</green>
+                        <blue>213</blue>
+                       </color>
+                      </brush>
+                     </property>
+                     <property name="foreground">
+                      <brush brushstyle="SolidPattern">
+                       <color alpha="255">
+                        <red>8</red>
+                        <green>125</green>
+                        <blue>32</blue>
+                       </color>
+                      </brush>
+                     </property>
+                    </item>
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>174</height>
+                     </size>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QWidget" name="summaryBottom">
+              <layout class="QGridLayout" name="summaryBottomLayout" columnstretch="30,46,24">
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <property name="spacing">
+                <number>12</number>
+               </property>
+               <item row="0" column="0">
+                <widget class="QFrame" name="subjectsCard">
+                 <property name="minimumSize">
+                  <size>
+                   <width>268</width>
+                   <height>168</height>
+                  </size>
+                 </property>
+                 <layout class="QVBoxLayout" name="subjectsCardLayout">
+                  <property name="leftMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="spacing">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QFrame" name="subjectsCardHeader">
+                    <layout class="QHBoxLayout" name="subjectsCardHeaderLayout">
+                     <property name="leftMargin">
+                      <number>6</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>6</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>6</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>6</number>
+                     </property>
+                     <property name="spacing">
+                      <number>8</number>
+                     </property>
+                     <item>
+                      <widget class="QLabel" name="subjectsCardIcon">
+                       <property name="text">
+                        <string />
+                       </property>
+                       <property name="font">
+                        <font>
+                         <family>Segoe UI</family>
+                         <pointsize>9</pointsize>
+                         <bold>false</bold>
+                        </font>
+                       </property>
+                       <property name="pixmap">
+                        <pixmap>:/icons/book.svg</pixmap>
+                       </property>
+                       <property name="scaledContents">
+                        <bool>true</bool>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>20</width>
+                         <height>20</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>20</width>
+                         <height>20</height>
+                        </size>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QLabel" name="subjectsCardTitle">
+                       <property name="text">
+                        <string>Thông tin môn học (học kỳ 1)</string>
+                       </property>
+                       <property name="font">
+                        <font>
+                         <family>Segoe UI</family>
+                         <pointsize>11</pointsize>
+                         <bold>true</bold>
+                        </font>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QWidget" name="subjectsCardBody">
+                    <layout class="QVBoxLayout" name="subjectsCardBodyLayout">
+                     <property name="leftMargin">
+                      <number>6</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>6</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>6</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>6</number>
+                     </property>
+                     <property name="spacing">
+                      <number>8</number>
+                     </property>
+                     <item>
+                      <widget class="QTableWidget" name="subjectsTable">
+                       <property name="font">
+                        <font>
+                         <family>Segoe UI</family>
+                         <pointsize>9</pointsize>
+                         <bold>false</bold>
+                        </font>
+                       </property>
+                       <property name="rowCount">
+                        <number>4</number>
+                       </property>
+                       <property name="columnCount">
+                        <number>3</number>
+                       </property>
+                       <property name="editTriggers">
+                        <set>QAbstractItemView::NoEditTriggers</set>
+                       </property>
+                       <property name="selectionBehavior">
+                        <enum>QAbstractItemView::SelectRows</enum>
+                       </property>
+                       <property name="alternatingRowColors">
+                        <bool>true</bool>
+                       </property>
+                       <property name="sortingEnabled">
+                        <bool>false</bool>
+                       </property>
+                       <attribute name="verticalHeaderVisible">
+                        <bool>false</bool>
+                       </attribute>
+                       <attribute name="verticalHeaderDefaultSectionSize">
+                        <number>26</number>
+                       </attribute>
+                       <attribute name="horizontalHeaderDefaultSectionSize">
+                        <number>105</number>
+                       </attribute>
+                       <attribute name="horizontalHeaderStretchLastSection">
+                        <bool>true</bool>
+                       </attribute>
+                       <row />
+                       <row />
+                       <row />
+                       <row />
+                       <column>
+                        <property name="text">
+                         <string>STT</string>
+                        </property>
+                       </column>
+                       <column>
+                        <property name="text">
+                         <string>Môn học</string>
+                        </property>
+                       </column>
+                       <column>
+                        <property name="text">
+                         <string>Số tín chỉ</string>
+                        </property>
+                       </column>
+                       <item row="0" column="0">
+                        <property name="text">
+                         <string>1</string>
+                        </property>
+                        <property name="textAlignment">
+                         <set>AlignCenter</set>
+                        </property>
+                        <property name="font">
+                         <font>
+                          <family>Segoe UI</family>
+                          <pointsize>9</pointsize>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                       </item>
+                       <item row="0" column="1">
+                        <property name="text">
+                         <string>Python</string>
+                        </property>
+                        <property name="textAlignment">
+                         <set>AlignLeft|AlignVCenter</set>
+                        </property>
+                        <property name="font">
+                         <font>
+                          <family>Segoe UI</family>
+                          <pointsize>9</pointsize>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                       </item>
+                       <item row="0" column="2">
+                        <property name="text">
+                         <string>3</string>
+                        </property>
+                        <property name="textAlignment">
+                         <set>AlignCenter</set>
+                        </property>
+                        <property name="font">
+                         <font>
+                          <family>Segoe UI</family>
+                          <pointsize>9</pointsize>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                       </item>
+                       <item row="1" column="0">
+                        <property name="text">
+                         <string>2</string>
+                        </property>
+                        <property name="textAlignment">
+                         <set>AlignCenter</set>
+                        </property>
+                        <property name="font">
+                         <font>
+                          <family>Segoe UI</family>
+                          <pointsize>9</pointsize>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                       </item>
+                       <item row="1" column="1">
+                        <property name="text">
+                         <string>Cơ sở dữ liệu</string>
+                        </property>
+                        <property name="textAlignment">
+                         <set>AlignLeft|AlignVCenter</set>
+                        </property>
+                        <property name="font">
+                         <font>
+                          <family>Segoe UI</family>
+                          <pointsize>9</pointsize>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                       </item>
+                       <item row="1" column="2">
+                        <property name="text">
+                         <string>3</string>
+                        </property>
+                        <property name="textAlignment">
+                         <set>AlignCenter</set>
+                        </property>
+                        <property name="font">
+                         <font>
+                          <family>Segoe UI</family>
+                          <pointsize>9</pointsize>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                       </item>
+                       <item row="2" column="0">
+                        <property name="text">
+                         <string>3</string>
+                        </property>
+                        <property name="textAlignment">
+                         <set>AlignCenter</set>
+                        </property>
+                        <property name="font">
+                         <font>
+                          <family>Segoe UI</family>
+                          <pointsize>9</pointsize>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                       </item>
+                       <item row="2" column="1">
+                        <property name="text">
+                         <string>Toán</string>
+                        </property>
+                        <property name="textAlignment">
+                         <set>AlignLeft|AlignVCenter</set>
+                        </property>
+                        <property name="font">
+                         <font>
+                          <family>Segoe UI</family>
+                          <pointsize>9</pointsize>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                       </item>
+                       <item row="2" column="2">
+                        <property name="text">
+                         <string>2</string>
+                        </property>
+                        <property name="textAlignment">
+                         <set>AlignCenter</set>
+                        </property>
+                        <property name="font">
+                         <font>
+                          <family>Segoe UI</family>
+                          <pointsize>9</pointsize>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                       </item>
+                       <item row="3" column="0">
+                        <property name="text">
+                         <string />
+                        </property>
+                        <property name="textAlignment">
+                         <set>AlignCenter</set>
+                        </property>
+                        <property name="font">
+                         <font>
+                          <family>Segoe UI</family>
+                          <pointsize>9</pointsize>
+                          <bold>true</bold>
+                         </font>
+                        </property>
+                        <property name="background">
+                         <brush brushstyle="SolidPattern">
+                          <color alpha="255">
+                           <red>217</red>
+                           <green>250</green>
+                           <blue>203</blue>
+                          </color>
+                         </brush>
+                        </property>
+                       </item>
+                       <item row="3" column="1">
+                        <property name="text">
+                         <string>Tổng số tín chỉ</string>
+                        </property>
+                        <property name="textAlignment">
+                         <set>AlignCenter</set>
+                        </property>
+                        <property name="font">
+                         <font>
+                          <family>Segoe UI</family>
+                          <pointsize>9</pointsize>
+                          <bold>true</bold>
+                         </font>
+                        </property>
+                        <property name="background">
+                         <brush brushstyle="SolidPattern">
+                          <color alpha="255">
+                           <red>217</red>
+                           <green>250</green>
+                           <blue>203</blue>
+                          </color>
+                         </brush>
+                        </property>
+                       </item>
+                       <item row="3" column="2">
+                        <property name="text">
+                         <string>8</string>
+                        </property>
+                        <property name="textAlignment">
+                         <set>AlignCenter</set>
+                        </property>
+                        <property name="font">
+                         <font>
+                          <family>Segoe UI</family>
+                          <pointsize>9</pointsize>
+                          <bold>true</bold>
+                         </font>
+                        </property>
+                        <property name="background">
+                         <brush brushstyle="SolidPattern">
+                          <color alpha="255">
+                           <red>217</red>
+                           <green>250</green>
+                           <blue>203</blue>
+                          </color>
+                         </brush>
+                        </property>
+                       </item>
+                       <property name="minimumSize">
+                        <size>
+                         <width>0</width>
+                         <height>132</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>16777215</width>
+                         <height>132</height>
+                        </size>
+                       </property>
+                       <property name="selectionMode">
+                        <enum>QAbstractItemView::NoSelection</enum>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QFrame" name="statisticsCard">
+                 <property name="minimumSize">
+                  <size>
+                   <width>390</width>
+                   <height>168</height>
+                  </size>
+                 </property>
+                 <layout class="QVBoxLayout" name="statisticsCardLayout">
+                  <property name="leftMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="spacing">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QFrame" name="statisticsCardHeader">
+                    <layout class="QHBoxLayout" name="statisticsCardHeaderLayout">
+                     <property name="leftMargin">
+                      <number>6</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>6</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>6</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>6</number>
+                     </property>
+                     <property name="spacing">
+                      <number>8</number>
+                     </property>
+                     <item>
+                      <widget class="QLabel" name="statisticsCardIcon">
+                       <property name="text">
+                        <string />
+                       </property>
+                       <property name="font">
+                        <font>
+                         <family>Segoe UI</family>
+                         <pointsize>9</pointsize>
+                         <bold>false</bold>
+                        </font>
+                       </property>
+                       <property name="pixmap">
+                        <pixmap>:/icons/pie.svg</pixmap>
+                       </property>
+                       <property name="scaledContents">
+                        <bool>true</bool>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>20</width>
+                         <height>20</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>20</width>
+                         <height>20</height>
+                        </size>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QLabel" name="statisticsCardTitle">
+                       <property name="text">
+                        <string>Thống kê kết quả</string>
+                       </property>
+                       <property name="font">
+                        <font>
+                         <family>Segoe UI</family>
+                         <pointsize>11</pointsize>
+                         <bold>true</bold>
+                        </font>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QWidget" name="statisticsCardBody">
+                    <layout class="QVBoxLayout" name="statisticsCardBodyLayout">
+                     <property name="leftMargin">
+                      <number>6</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>6</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>6</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>6</number>
+                     </property>
+                     <property name="spacing">
+                      <number>8</number>
+                     </property>
+                     <item>
+                      <widget class="QWidget" name="statisticsBody">
+                       <layout class="QHBoxLayout" name="statisticsBodyLayout" stretch="0,1,0">
+                        <property name="leftMargin">
+                         <number>0</number>
+                        </property>
+                        <property name="topMargin">
+                         <number>0</number>
+                        </property>
+                        <property name="rightMargin">
+                         <number>0</number>
+                        </property>
+                        <property name="bottomMargin">
+                         <number>0</number>
+                        </property>
+                        <property name="spacing">
+                         <number>8</number>
+                        </property>
+                        <item>
+                         <widget class="QFrame" name="totalStudentsCard">
+                          <property name="minimumSize">
+                           <size>
+                            <width>92</width>
+                            <height>104</height>
+                           </size>
+                          </property>
+                          <property name="maximumSize">
+                           <size>
+                            <width>108</width>
+                            <height>120</height>
+                           </size>
+                          </property>
+                          <layout class="QVBoxLayout" name="totalStudentsLayout">
+                           <property name="leftMargin">
+                            <number>6</number>
+                           </property>
+                           <property name="topMargin">
+                            <number>6</number>
+                           </property>
+                           <property name="rightMargin">
+                            <number>6</number>
+                           </property>
+                           <property name="bottomMargin">
+                            <number>6</number>
+                           </property>
+                           <property name="spacing">
+                            <number>2</number>
+                           </property>
+                           <item>
+                            <spacer name="totalStudentsTopSpacer">
+                             <property name="orientation">
+                              <enum>Qt::Vertical</enum>
+                             </property>
+                             <property name="sizeHint">
+                              <size>
+                               <width>10</width>
+                               <height>8</height>
+                              </size>
+                             </property>
+                            </spacer>
+                           </item>
+                           <item alignment="Qt::AlignHCenter">
+                            <widget class="QLabel" name="totalStudentsIcon">
+                             <property name="text">
+                              <string />
+                             </property>
+                             <property name="font">
+                              <font>
+                               <family>Segoe UI</family>
+                               <pointsize>9</pointsize>
+                               <bold>false</bold>
+                              </font>
+                             </property>
+                             <property name="pixmap">
+                              <pixmap>:/icons/person_green.svg</pixmap>
+                             </property>
+                             <property name="scaledContents">
+                              <bool>true</bool>
+                             </property>
+                             <property name="minimumSize">
+                              <size>
+                               <width>28</width>
+                               <height>28</height>
+                              </size>
+                             </property>
+                             <property name="maximumSize">
+                              <size>
+                               <width>28</width>
+                               <height>28</height>
+                              </size>
+                             </property>
+                            </widget>
+                           </item>
+                           <item>
+                            <widget class="QLabel" name="totalStudentsCaption">
+                             <property name="text">
+                              <string>Tổng số sinh viên</string>
+                             </property>
+                             <property name="font">
+                              <font>
+                               <family>Segoe UI</family>
+                               <pointsize>8</pointsize>
+                               <bold>false</bold>
+                              </font>
+                             </property>
+                             <property name="alignment">
+                              <set>Qt::AlignCenter</set>
+                             </property>
+                            </widget>
+                           </item>
+                           <item>
+                            <widget class="QLabel" name="totalStudentsLabel">
+                             <property name="text">
+                              <string>5</string>
+                             </property>
+                             <property name="font">
+                              <font>
+                               <family>Segoe UI</family>
+                               <pointsize>20</pointsize>
+                               <bold>true</bold>
+                              </font>
+                             </property>
+                             <property name="alignment">
+                              <set>Qt::AlignCenter</set>
+                             </property>
+                            </widget>
+                           </item>
+                           <item>
+                            <spacer name="totalStudentsBottomSpacer">
+                             <property name="orientation">
+                              <enum>Qt::Vertical</enum>
+                             </property>
+                             <property name="sizeHint">
+                              <size>
+                               <width>10</width>
+                               <height>8</height>
+                              </size>
+                             </property>
+                            </spacer>
+                           </item>
+                          </layout>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QWidget" name="resultsLegend">
+                          <layout class="QGridLayout" name="resultsLegendLayout">
+                           <property name="leftMargin">
+                            <number>0</number>
+                           </property>
+                           <property name="topMargin">
+                            <number>0</number>
+                           </property>
+                           <property name="rightMargin">
+                            <number>0</number>
+                           </property>
+                           <property name="bottomMargin">
+                            <number>0</number>
+                           </property>
+                           <property name="spacing">
+                            <number>6</number>
+                           </property>
+                           <item row="0" column="0">
+                            <widget class="QLabel" name="excellentSwatch">
+                             <property name="text">
+                              <string />
+                             </property>
+                             <property name="font">
+                              <font>
+                               <family>Segoe UI</family>
+                               <pointsize>9</pointsize>
+                               <bold>false</bold>
+                              </font>
+                             </property>
+                             <property name="minimumSize">
+                              <size>
+                               <width>13</width>
+                               <height>13</height>
+                              </size>
+                             </property>
+                             <property name="maximumSize">
+                              <size>
+                               <width>13</width>
+                               <height>13</height>
+                              </size>
+                             </property>
+                             <property name="styleSheet">
+                              <string>background: #42bf35; border-radius: 3px;</string>
+                             </property>
+                            </widget>
+                           </item>
+                           <item row="0" column="1">
+                            <widget class="QLabel" name="excellentLegendLabel">
+                             <property name="text">
+                              <string>Xuất sắc:  1 (20.0%)</string>
+                             </property>
+                             <property name="font">
+                              <font>
+                               <family>Segoe UI</family>
+                               <pointsize>8</pointsize>
+                               <bold>false</bold>
+                              </font>
+                             </property>
+                            </widget>
+                           </item>
+                           <item row="1" column="0">
+                            <widget class="QLabel" name="goodSwatch">
+                             <property name="text">
+                              <string />
+                             </property>
+                             <property name="font">
+                              <font>
+                               <family>Segoe UI</family>
+                               <pointsize>9</pointsize>
+                               <bold>false</bold>
+                              </font>
+                             </property>
+                             <property name="minimumSize">
+                              <size>
+                               <width>13</width>
+                               <height>13</height>
+                              </size>
+                             </property>
+                             <property name="maximumSize">
+                              <size>
+                               <width>13</width>
+                               <height>13</height>
+                              </size>
+                             </property>
+                             <property name="styleSheet">
+                              <string>background: #b3f658; border-radius: 3px;</string>
+                             </property>
+                            </widget>
+                           </item>
+                           <item row="1" column="1">
+                            <widget class="QLabel" name="goodLegendLabel">
+                             <property name="text">
+                              <string>Giỏi:        2 (40.0%)</string>
+                             </property>
+                             <property name="font">
+                              <font>
+                               <family>Segoe UI</family>
+                               <pointsize>8</pointsize>
+                               <bold>false</bold>
+                              </font>
+                             </property>
+                            </widget>
+                           </item>
+                           <item row="2" column="0">
+                            <widget class="QLabel" name="fairSwatch">
+                             <property name="text">
+                              <string />
+                             </property>
+                             <property name="font">
+                              <font>
+                               <family>Segoe UI</family>
+                               <pointsize>9</pointsize>
+                               <bold>false</bold>
+                              </font>
+                             </property>
+                             <property name="minimumSize">
+                              <size>
+                               <width>13</width>
+                               <height>13</height>
+                              </size>
+                             </property>
+                             <property name="maximumSize">
+                              <size>
+                               <width>13</width>
+                               <height>13</height>
+                              </size>
+                             </property>
+                             <property name="styleSheet">
+                              <string>background: #ffe35e; border-radius: 3px;</string>
+                             </property>
+                            </widget>
+                           </item>
+                           <item row="2" column="1">
+                            <widget class="QLabel" name="fairLegendLabel">
+                             <property name="text">
+                              <string>Khá:         1 (20.0%)</string>
+                             </property>
+                             <property name="font">
+                              <font>
+                               <family>Segoe UI</family>
+                               <pointsize>8</pointsize>
+                               <bold>false</bold>
+                              </font>
+                             </property>
+                            </widget>
+                           </item>
+                           <item row="3" column="0">
+                            <widget class="QLabel" name="averageSwatch">
+                             <property name="text">
+                              <string />
+                             </property>
+                             <property name="font">
+                              <font>
+                               <family>Segoe UI</family>
+                               <pointsize>9</pointsize>
+                               <bold>false</bold>
+                              </font>
+                             </property>
+                             <property name="minimumSize">
+                              <size>
+                               <width>13</width>
+                               <height>13</height>
+                              </size>
+                             </property>
+                             <property name="maximumSize">
+                              <size>
+                               <width>13</width>
+                               <height>13</height>
+                              </size>
+                             </property>
+                             <property name="styleSheet">
+                              <string>background: #ff9c9f; border-radius: 3px;</string>
+                             </property>
+                            </widget>
+                           </item>
+                           <item row="3" column="1">
+                            <widget class="QLabel" name="averageLegendLabel">
+                             <property name="text">
+                              <string>Trung bình: 1 (20.0%)</string>
+                             </property>
+                             <property name="font">
+                              <font>
+                               <family>Segoe UI</family>
+                               <pointsize>8</pointsize>
+                               <bold>false</bold>
+                              </font>
+                             </property>
+                            </widget>
+                           </item>
+                           <item row="4" column="0">
+                            <widget class="QLabel" name="weakSwatch">
+                             <property name="text">
+                              <string />
+                             </property>
+                             <property name="font">
+                              <font>
+                               <family>Segoe UI</family>
+                               <pointsize>9</pointsize>
+                               <bold>false</bold>
+                              </font>
+                             </property>
+                             <property name="minimumSize">
+                              <size>
+                               <width>13</width>
+                               <height>13</height>
+                              </size>
+                             </property>
+                             <property name="maximumSize">
+                              <size>
+                               <width>13</width>
+                               <height>13</height>
+                              </size>
+                             </property>
+                             <property name="styleSheet">
+                              <string>background: #bbc3cc; border-radius: 3px;</string>
+                             </property>
+                            </widget>
+                           </item>
+                           <item row="4" column="1">
+                            <widget class="QLabel" name="weakLegendLabel">
+                             <property name="text">
+                              <string>Yếu:         0 (0.0%)</string>
+                             </property>
+                             <property name="font">
+                              <font>
+                               <family>Segoe UI</family>
+                               <pointsize>8</pointsize>
+                               <bold>false</bold>
+                              </font>
+                             </property>
+                            </widget>
+                           </item>
+                          </layout>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QLabel" name="resultsChart">
+                          <property name="text">
+                           <string />
+                          </property>
+                          <property name="font">
+                           <font>
+                            <family>Segoe UI</family>
+                            <pointsize>9</pointsize>
+                            <bold>false</bold>
+                           </font>
+                          </property>
+                          <property name="pixmap">
+                           <pixmap>:/icons/results_donut.svg</pixmap>
+                          </property>
+                          <property name="scaledContents">
+                           <bool>true</bool>
+                          </property>
+                          <property name="minimumSize">
+                           <size>
+                            <width>120</width>
+                            <height>120</height>
+                           </size>
+                          </property>
+                          <property name="maximumSize">
+                           <size>
+                            <width>120</width>
+                            <height>120</height>
+                           </size>
+                          </property>
+                         </widget>
+                        </item>
+                       </layout>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item row="0" column="2">
+                <widget class="QFrame" name="summaryActionsCard">
+                 <property name="minimumSize">
+                  <size>
+                   <width>188</width>
+                   <height>168</height>
+                  </size>
+                 </property>
+                 <layout class="QVBoxLayout" name="summaryActionsCardLayout">
+                  <property name="leftMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="spacing">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QFrame" name="summaryActionsCardHeader">
+                    <layout class="QHBoxLayout" name="summaryActionsCardHeaderLayout">
+                     <property name="leftMargin">
+                      <number>6</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>6</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>6</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>6</number>
+                     </property>
+                     <property name="spacing">
+                      <number>8</number>
+                     </property>
+                     <item>
+                      <widget class="QLabel" name="summaryActionsCardIcon">
+                       <property name="text">
+                        <string />
+                       </property>
+                       <property name="font">
+                        <font>
+                         <family>Segoe UI</family>
+                         <pointsize>9</pointsize>
+                         <bold>false</bold>
+                        </font>
+                       </property>
+                       <property name="pixmap">
+                        <pixmap>:/icons/gear.svg</pixmap>
+                       </property>
+                       <property name="scaledContents">
+                        <bool>true</bool>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>20</width>
+                         <height>20</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>20</width>
+                         <height>20</height>
+                        </size>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QLabel" name="summaryActionsCardTitle">
+                       <property name="text">
+                        <string>Chức năng</string>
+                       </property>
+                       <property name="font">
+                        <font>
+                         <family>Segoe UI</family>
+                         <pointsize>11</pointsize>
+                         <bold>true</bold>
+                        </font>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QWidget" name="summaryActionsCardBody">
+                    <layout class="QVBoxLayout" name="summaryActionsCardBodyLayout">
+                     <property name="leftMargin">
+                      <number>6</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>6</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>6</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>6</number>
+                     </property>
+                     <property name="spacing">
+                      <number>8</number>
+                     </property>
+                     <item>
+                      <spacer name="summaryActionsTopSpacer">
+                       <property name="orientation">
+                        <enum>Qt::Vertical</enum>
+                       </property>
+                       <property name="sizeHint">
+                        <size>
+                         <width>10</width>
+                         <height>8</height>
+                        </size>
+                       </property>
+                      </spacer>
+                     </item>
+                     <item>
+                      <widget class="QPushButton" name="summaryRefreshButton">
+                       <property name="text">
+                        <string> Cập nhật dữ liệu</string>
+                       </property>
+                       <property name="font">
+                        <font>
+                         <family>Segoe UI</family>
+                         <pointsize>10</pointsize>
+                         <bold>true</bold>
+                        </font>
+                       </property>
+                       <property name="icon">
+                        <iconset resource="resources.qrc">
+                         <normaloff>:/icons/refresh.svg</normaloff>
+                        </iconset>
+                       </property>
+                       <property name="iconSize">
+                        <size>
+                         <width>24</width>
+                         <height>24</height>
+                        </size>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>0</width>
+                         <height>38</height>
+                        </size>
+                       </property>
+                       <property name="cursor">
+                        <cursorShape>PointingHandCursor</cursorShape>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QPushButton" name="summaryExportButton">
+                       <property name="text">
+                        <string> Xuất Excel</string>
+                       </property>
+                       <property name="font">
+                        <font>
+                         <family>Segoe UI</family>
+                         <pointsize>10</pointsize>
+                         <bold>true</bold>
+                        </font>
+                       </property>
+                       <property name="icon">
+                        <iconset resource="resources.qrc">
+                         <normaloff>:/icons/excel.svg</normaloff>
+                        </iconset>
+                       </property>
+                       <property name="iconSize">
+                        <size>
+                         <width>24</width>
+                         <height>24</height>
+                        </size>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>0</width>
+                         <height>38</height>
+                        </size>
+                       </property>
+                       <property name="cursor">
+                        <cursorShape>PointingHandCursor</cursorShape>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <spacer name="summaryActionsBottomSpacer">
+                       <property name="orientation">
+                        <enum>Qt::Vertical</enum>
+                       </property>
+                       <property name="sizeHint">
+                        <size>
+                         <width>10</width>
+                         <height>8</height>
+                        </size>
+                       </property>
+                      </spacer>
+                     </item>
+                    </layout>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <property name="iconSize">
+       <size>
+        <width>20</width>
+        <height>20</height>
+       </size>
+      </property>
+      <property name="currentIndex">
+       <number>1</number>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1160</width>
+    <height>640</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>860</width>
+    <height>480</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Quản lý điểm sinh viên - Lớp K10TIN - Học kỳ 1</string>
+  </property>
+ </widget>
+ <tabstops>
+  <tabstop>studentIdEdit</tabstop>
+  <tabstop>fullNameEdit</tabstop>
+  <tabstop>classEdit</tabstop>
+  <tabstop>subjectCombo</tabstop>
+  <tabstop>regularScoreSpin</tabstop>
+  <tabstop>midtermScoreSpin</tabstop>
+  <tabstop>finalScoreSpin</tabstop>
+  <tabstop>addButton</tabstop>
+  <tabstop>editButton</tabstop>
+  <tabstop>deleteButton</tabstop>
+  <tabstop>searchEdit</tabstop>
+  <tabstop>filterSubjectCombo</tabstop>
+  <tabstop>studentsTable</tabstop>
+  <tabstop>refreshButton</tabstop>
+  <tabstop>exportButton</tabstop>
+  <tabstop>closeButton</tabstop>
+  <tabstop>summarySearchEdit</tabstop>
+  <tabstop>summarySearchButton</tabstop>
+  <tabstop>summaryTable</tabstop>
+  <tabstop>subjectsTable</tabstop>
+  <tabstop>summaryRefreshButton</tabstop>
+  <tabstop>summaryExportButton</tabstop>
+ </tabstops>
+ <resources>
+  <include location="resources.qrc" />
+ </resources>
+ <connections />
+</ui>

@@ -1,0 +1,24 @@
+<!DOCTYPE RCC>
+<RCC>
+  <qresource prefix="/icons">
+    <file alias="app.svg">assets/app.svg</file>
+    <file alias="chart.svg">assets/chart.svg</file>
+    <file alias="chevron.svg">assets/chevron.svg</file>
+    <file alias="delete.svg">assets/delete.svg</file>
+    <file alias="down.svg">assets/down.svg</file>
+    <file alias="edit.svg">assets/edit.svg</file>
+    <file alias="excel.svg">assets/excel.svg</file>
+    <file alias="graduate.svg">assets/graduate.svg</file>
+    <file alias="header.svg">assets/header.svg</file>
+    <file alias="person.svg">assets/person.svg</file>
+    <file alias="plus.svg">assets/plus.svg</file>
+    <file alias="refresh.svg">assets/refresh.svg</file>
+    <file alias="up.svg">assets/up.svg</file>
+    <file alias="book.svg">assets/book.svg</file>
+    <file alias="pie.svg">assets/pie.svg</file>
+    <file alias="gear.svg">assets/gear.svg</file>
+    <file alias="search.svg">assets/search.svg</file>
+    <file alias="person_green.svg">assets/person_green.svg</file>
+    <file alias="results_donut.svg">assets/results_donut.svg</file>
+  </qresource>
+</RCC>
