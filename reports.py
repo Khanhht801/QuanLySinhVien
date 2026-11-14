@@ -32,7 +32,12 @@ def export_workbook(path, title, headers, rows):
                 cell.fill = PatternFill('solid', fgColor='F5F9FE')
         category = values[-1] if values else ''
         if category in category_fills:
-            for column in (len(values)-1, len(values)):
+            category_columns = [len(values)]
+            if 'Điểm TBC học kỳ' in headers:
+                category_columns.append(headers.index('Điểm TBC học kỳ') + 1)
+            elif len(values) > 1:
+                category_columns.append(len(values) - 1)
+            for column in category_columns:
                 sheet.cell(row_number, column).fill = PatternFill('solid', fgColor=category_fills[category])
                 sheet.cell(row_number, column).font = Font(bold=True)
     sheet.row_dimensions[3].height = 34

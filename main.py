@@ -30,9 +30,13 @@ class MainWindow(QtWidgets.QMainWindow):
         self.subtitleLabel.setText(f'Lớp {CLASS_NAME}  |  Học kỳ {SEMESTER}')
         self.classEdit.setText(CLASS_NAME)
         self.classEdit.setReadOnly(True)
+        validator = QtGui.QDoubleValidator(0, 100, 2, self.conductEdit)
+        validator.setNotation(QtGui.QDoubleValidator.StandardNotation)
+        validator.setLocale(QtCore.QLocale.c())
+        self.conductEdit.setValidator(validator)
+        self.conductEdit.setToolTip('Điểm rèn luyện học kỳ từ 0 đến 100; để trống nếu chưa có.')
         self.midtermScoreSpinLabel.setText('Điểm định kỳ:')
         self.totalCaption.setToolTip('(Điểm thường xuyên + 2 × điểm định kỳ + 3 × điểm cuối kỳ) / 6; làm tròn 1 chữ số thập phân.')
-        self.subjectsCardTitle.setText('Môn học học kỳ 5')
         self.subjectCombo.clear()
         self.filterSubjectCombo.clear()
         for subject in self.db.subjects():
@@ -41,15 +45,18 @@ class MainWindow(QtWidgets.QMainWindow):
         self._score_editors = {}
         for spin in self.score_spins():
             spin.setRange(0, 10)
-            spin.setDecimals(1)
+            spin.setDecimals(2)
+            spin.setSingleStep(0.1)
+            spin.setButtonSymbols(QtWidgets.QAbstractSpinBox.NoButtons)
             spin.setSpecialValueText('')
             spin.setFocusPolicy(QtCore.Qt.StrongFocus)
-            spin.setToolTip('Gõ điểm từ 0 đến 10, ví dụ 8.5. Dùng Tab để chuyển ô.')
+            spin.setToolTip('Gõ điểm từ 0 đến 10, tối đa 2 chữ số thập phân, ví dụ 9.25. Dùng Tab để chuyển ô.')
             self._score_editors[spin.lineEdit()] = spin
+            spin.installEventFilter(self)
             spin.lineEdit().installEventFilter(self)
             spin.valueChanged.connect(self.update_preview)
         self.studentsTable.setColumnCount(8)
-        self.studentsTable.setHorizontalHeaderLabels(['STT', 'Mã SV', 'Họ tên', 'Điểm\nthường xuyên', 'Điểm\nđịnh kỳ', 'Điểm\ncuối kỳ', 'Tổng kết', 'Xếp loại'])
+        self.studentsTable.setHorizontalHeaderLabels(['STT', 'Mã SV', 'Họ tên', 'Điểm\nthường xuyên', 'Điểm\nđịnh kỳ', 'Điểm\ncuối kỳ', 'Điểm TBC\nmôn học', 'Xếp loại'])
         self.studentsTable.horizontalHeader().setMinimumHeight(52)
         self.studentsTable.horizontalHeader().setStretchLastSection(False)
         self.studentsTable.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
@@ -71,7 +78,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.deleteButton.clicked.connect(self.delete_record)
         self.exportButton.clicked.connect(lambda: self.export_table(self.studentsTable, 'Điểm môn ' + self.subjectCombo.currentText()))
         self.subjectCombo.currentIndexChanged.connect(self.reload_data)
-        self.newButton = QtWidgets.QPushButton('Nhập lại')
+        self.newButton = QtWidgets.QPushButton('Nhập sinh viên mới')
         self.studentCardLayout.addWidget(self.newButton)
         self.newButton.clicked.connect(self.clear_form)
         self.reload_data()
@@ -82,13 +89,14 @@ class MainWindow(QtWidgets.QMainWindow):
     def setup_summary(self):
         # Report an outdated Designer file instead of silently showing an old UI.
         dashboard_controls = (
-            "subjectsTable", "summarySearchEdit", "summarySearchButton",
+            "summarySearchEdit", "summarySearchButton",
             "summaryRefreshButton", "summaryExportButton", "summaryBottomLayout",
             "summaryActionsCard", "summaryActionsCardBodyLayout",
         )
         self._has_summary_dashboard = all(hasattr(self, name) for name in dashboard_controls)
         self._summary_compact = None
         header = self.summaryTable.horizontalHeader()
+        self.summaryTable.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
         header.setStretchLastSection(False)
         if not self._has_summary_dashboard:
             raise RuntimeError(
@@ -98,19 +106,25 @@ class MainWindow(QtWidgets.QMainWindow):
                 "để khôi phục bản đã kiểm tra."
             )
         header.setSectionResizeMode(QtWidgets.QHeaderView.Fixed)
+        self.summaryBottomLayout.setAlignment(QtCore.Qt.AlignTop)
+        self.summaryBottomLayout.setRowStretch(0, 0)
+        self.summaryBottomLayout.setRowStretch(1, 0)
+        self.statisticsCard.setMinimumHeight(0)
+        self.summaryActionsCard.setMinimumHeight(0)
+        self.summaryActionsCard.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
+        for index in (0, self.summaryActionsCardBodyLayout.count() - 1):
+            self.summaryActionsCardBodyLayout.itemAt(index).spacerItem().changeSize(
+                0, 0, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.summaryActionsCardBodyLayout.invalidate()
+        self.summaryActionsCardHeader.hide()
+        self.summaryActionsCard.setStyleSheet('QFrame#summaryActionsCard { background: transparent; border: none; }')
+        self.statisticsBodyLayout.addWidget(self.resultsChart, 0, 0, 1, 2, QtCore.Qt.AlignHCenter)
+        self.totalStudentsCard.hide()
+        self.statisticsBodyLayout.addWidget(self.resultsLegend, 1, 0, 1, 2)
+        self.resultsChart.setFixedSize(150, 150)
         header.setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)
         header.setFixedHeight(38)
         self.summaryTable.verticalHeader().setDefaultSectionSize(26)
-        self.subjectsTable.horizontalHeader().setStretchLastSection(False)
-        self.subjectsTable.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
-        self.subjectsTable.horizontalHeader().setSectionResizeMode(0, QtWidgets.QHeaderView.Fixed)
-        self.subjectsTable.setColumnWidth(0, 32)
-        self.subjectsTable.horizontalHeader().setSectionResizeMode(2, QtWidgets.QHeaderView.Fixed)
-        self.subjectsTable.setColumnWidth(2, 78)
-        self.subjectsTable.verticalHeader().setDefaultSectionSize(25)
-        self.subjectsTable.horizontalHeader().setFixedHeight(28)
-        self.subjectsTable.clearSpans()
-        self.subjectsTable.setColumnHidden(2, True)
         self.summarySearchEdit.textChanged.connect(self.filter_summary_students)
         self.summarySearchEdit.returnPressed.connect(self.search_summary)
         self.summarySearchButton.clicked.connect(self.search_summary)
@@ -124,6 +138,10 @@ class MainWindow(QtWidgets.QMainWindow):
         missing_swatch.setStyleSheet('background: #bbc3cc; border-radius: 3px;')
         self.resultsLegendLayout.addWidget(missing_swatch, 5, 0)
         self.resultsLegendLayout.addWidget(self.missingLegendLabel, 5, 1)
+        for name in ('excellent', 'good', 'fair', 'average', 'weak', 'missing'):
+            label = getattr(self, name + 'LegendLabel')
+            label.setWordWrap(True)
+            label.setMinimumWidth(0)
         self._summary_compact = None
 
     def filter_summary_students(self, text):
@@ -149,29 +167,23 @@ class MainWindow(QtWidgets.QMainWindow):
     def adjust_summary_layout(self):
         if not self._has_summary_dashboard:
             return
-        compact = self.width() < 1000
-        if compact != self._summary_compact:
-            grid = self.summaryBottomLayout
-            grid.removeWidget(self.summaryActionsCard)
-            if compact:
-                grid.addWidget(self.summaryActionsCard, 1, 0, 1, 2)
-                grid.setColumnStretch(0, 40)
-                grid.setColumnStretch(1, 60)
-                grid.setColumnStretch(2, 0)
-                self.summaryActionsCard.setMinimumHeight(100)
-                self.summaryActionsCardBodyLayout.setDirection(QtWidgets.QBoxLayout.LeftToRight)
-            else:
-                grid.addWidget(self.summaryActionsCard, 0, 2)
-                for column, stretch in enumerate((30, 46, 24)):
-                    grid.setColumnStretch(column, stretch)
-                self.summaryActionsCard.setMinimumHeight(168)
-                self.summaryActionsCardBodyLayout.setDirection(QtWidgets.QBoxLayout.TopToBottom)
-            self._summary_compact = compact
         self.resize_summary_columns()
 
     def eventFilter(self, obj, event):
+        score_controls = getattr(self, '_score_editors', {})
+        if obj in score_controls or obj in score_controls.values():
+            if event.type() == QtCore.QEvent.Wheel:
+                return True
+            if event.type() == QtCore.QEvent.KeyPress and event.key() in (
+                    QtCore.Qt.Key_Up, QtCore.Qt.Key_Down,
+                    QtCore.Qt.Key_PageUp, QtCore.Qt.Key_PageDown):
+                return True
         if event.type() == QtCore.QEvent.FocusIn:
             spin = getattr(self, '_score_editors', {}).get(obj)
+            if spin is not None and not spin.isReadOnly():
+                QtCore.QTimer.singleShot(0, spin.selectAll)
+        if event.type() == QtCore.QEvent.MouseButtonRelease and event.button() == QtCore.Qt.LeftButton:
+            spin = score_controls.get(obj)
             if spin is not None and not spin.isReadOnly():
                 QtCore.QTimer.singleShot(0, spin.selectAll)
         if event.type() == QtCore.QEvent.Resize and hasattr(self, "summaryTable"):
@@ -214,12 +226,9 @@ class MainWindow(QtWidgets.QMainWindow):
         editable = mode in ('new', 'edit')
         self.studentIdEdit.setReadOnly(not editable)
         self.fullNameEdit.setReadOnly(not editable)
+        self.conductEdit.setReadOnly(not editable)
         for spin in self.score_spins():
             spin.setReadOnly(not editable)
-            spin.setButtonSymbols(
-                QtWidgets.QAbstractSpinBox.UpDownArrows if editable
-                else QtWidgets.QAbstractSpinBox.NoButtons
-            )
         self.editButton.setText('Xác nhận' if mode == 'edit' else 'Sửa điểm')
         self.editButton.setProperty('confirming', mode == 'edit')
         self.editButton.style().unpolish(self.editButton)
@@ -228,7 +237,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.editButton.setEnabled(mode != 'new')
         self.addButton.setEnabled(mode == 'new')
         self.deleteButton.setEnabled(mode == 'view')
-        # Keep the student and subject fixed until confirmation or Nhập lại.
+        # Keep the student and subject fixed until confirmation or starting a new student.
         for control in (self.studentsTable, self.subjectCombo, self.filterSubjectCombo,
                         self.searchEdit, self.refreshButton, self.summaryRefreshButton):
             control.setEnabled(mode != 'edit')
@@ -238,6 +247,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.selected_code = None
         self.studentIdEdit.setText(self.db.next_student_code())
         self.fullNameEdit.clear()
+        self.conductEdit.clear()
         for spin in self.score_spins():
             spin.setValue(0)
         self.set_form_mode('new')
@@ -251,6 +261,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.selected_code = self.studentsTable.item(row, 1).text()
         self.studentIdEdit.setText(self.selected_code)
         self.fullNameEdit.setText(self.studentsTable.item(row, 2).text())
+        conduct = self.db.conduct_score(self.selected_code)
+        self.conductEdit.setText('' if conduct is None else f'{conduct:g}')
         grade = self.db.grade(self.selected_code, self.subjectCombo.currentData())
         for spin, key in zip(self.score_spins(), ('regular', 'midterm', 'final')):
             spin.setValue(grade[key] if grade else 0)
@@ -278,7 +290,11 @@ class MainWindow(QtWidgets.QMainWindow):
             QtWidgets.QMessageBox.information(self, 'Chọn sinh viên', 'Chọn sinh viên trong bảng để sửa.')
             return
         try:
-            args = (self.studentIdEdit.text(), self.fullNameEdit.text(), self.subjectCombo.currentData(), self.form_scores())
+            conduct_text = self.conductEdit.text().strip()
+            if conduct_text and not self.conductEdit.hasAcceptableInput():
+                raise ValueError('Điểm rèn luyện phải từ 0 đến 100.')
+            conduct = float(conduct_text) if conduct_text else None
+            args = (self.studentIdEdit.text(), self.fullNameEdit.text(), self.subjectCombo.currentData(), self.form_scores(), conduct)
             code = self.db.update_record(self.selected_code, *args) if editing else self.db.add_record(*args)
         except (ValueError, sqlite3.Error) as error:
             QtWidgets.QMessageBox.warning(self, 'Không lưu được', str(error))
@@ -322,18 +338,25 @@ class MainWindow(QtWidgets.QMainWindow):
             return
         self.reload_data()
 
-    @staticmethod
-    def fill_table(table, rows):
+    def fill_table(self, table, rows):
         table.setSortingEnabled(False)
         table.blockSignals(True)
         table.setRowCount(0)
         for row_number, values in enumerate(rows):
             table.insertRow(row_number)
             for column, value in enumerate(values):
-                text = '—' if value is None else f'{value:.1f}' if isinstance(value, float) else str(value)
+                if value is None:
+                    text = '—'
+                elif table is self.studentsTable and column in (3, 4, 5):
+                    text = f'{value:.2f}'
+                else:
+                    text = f'{value:.1f}' if isinstance(value, float) else str(value)
                 item = QtWidgets.QTableWidgetItem(text)
                 item.setData(QtCore.Qt.UserRole, value)
                 item.setToolTip(text)
+                if ((table is self.studentsTable and 3 <= column <= 6) or
+                        (table is self.summaryTable and 3 <= column < len(values) - 1)):
+                    item.setTextAlignment(QtCore.Qt.AlignCenter)
                 if value in CATEGORIES:
                     item.setBackground(QtGui.QColor(COLORS[CATEGORIES.index(value)]))
                 table.setItem(row_number, column, item)
@@ -349,12 +372,11 @@ class MainWindow(QtWidgets.QMainWindow):
             rows.append([number, student['code'], student['name'], *scores, total, self.policy.classify(total)])
         self.fill_table(self.studentsTable, rows)
         subjects = self.db.subjects()
-        headers = ['STT', 'Mã SV', 'Họ tên', *['\n'.join(textwrap.wrap(s['name'], 12)) for s in subjects], 'ĐTB học kỳ', 'Xếp loại']
+        headers = ['STT', 'Mã SV', 'Họ tên', *['\n'.join(textwrap.wrap(s['name'], 12)) for s in subjects], 'Điểm TBC\nhọc kỳ', 'Điểm rèn\nluyện', 'Xếp loại']
         self.summaryTable.setColumnCount(len(headers))
         self.summaryTable.setHorizontalHeaderLabels(headers)
         data = self.db.summary(self.policy)
-        self.fill_table(self.summaryTable, [[n, s['code'], s['name'], *s['scores'], s['average'], s['classification']] for n, s in enumerate(data, 1)])
-        self.fill_table(self.subjectsTable, [[n, s['name'], ''] for n, s in enumerate(subjects, 1)])
+        self.fill_table(self.summaryTable, [[n, s['code'], s['name'], *s['scores'], s['average'], s['conduct'], s['classification']] for n, s in enumerate(data, 1)])
         self.totalStudentsLabel.setText(str(len(data)))
         self.update_statistics(data)
         self.clear_form()
@@ -374,7 +396,7 @@ class MainWindow(QtWidgets.QMainWindow):
             count = counts[label]
             getattr(self, name + 'LegendLabel').setText(f'{label}: {count} ({count / total * 100 if total else 0:.1f}%)')
         missing = counts['Chưa đủ điểm']
-        self.totalStudentsCaption.setText('Tổng SV')
+        self.totalStudentsCaption.setText('Tổng sinh viên')
         self.missingLegendLabel.setText(f'Chưa đủ điểm: {missing}')
         pixmap = QtGui.QPixmap(180, 180)
         pixmap.fill(QtCore.Qt.transparent)

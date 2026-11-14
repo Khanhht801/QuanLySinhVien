@@ -52,6 +52,12 @@ class Database:
                 PRIMARY KEY(student_code, subject_id, semester)
             );
             CREATE TABLE IF NOT EXISTS settings (key TEXT PRIMARY KEY, value TEXT NOT NULL);
+            CREATE TABLE IF NOT EXISTS conduct_scores (
+                student_code TEXT NOT NULL REFERENCES students(code) ON DELETE CASCADE ON UPDATE CASCADE,
+                semester INTEGER NOT NULL CHECK(semester BETWEEN 1 AND 10),
+                score REAL NOT NULL CHECK(score BETWEEN 0 AND 100),
+                PRIMARY KEY(student_code, semester)
+            );
             PRAGMA user_version = 1;
         ''')
         # Keep earlier semesters and their subject records intact.
@@ -106,9 +112,26 @@ class Database:
                        regular=excluded.regular,midterm=excluded.midterm,final=excluded.final,updated_at=CURRENT_TIMESTAMP'''
         self.connection.execute(sql, (code, subject_id, SEMESTER, *values))
 
-    def add_record(self, code, name, subject_id, scores=None):
+    @staticmethod
+    def validate_conduct(score):
+        if score is not None and (not isinstance(score, (int, float)) or not math.isfinite(score) or not 0 <= score <= 100):
+            raise ValueError('Điểm rèn luyện phải từ 0 đến 100.')
+
+    def _save_conduct(self, code, score):
+        if score is None:
+            self.connection.execute('DELETE FROM conduct_scores WHERE student_code=? AND semester=?', (code, SEMESTER))
+        else:
+            self.connection.execute('''INSERT INTO conduct_scores(student_code, semester, score) VALUES (?, ?, ?)
+                ON CONFLICT(student_code, semester) DO UPDATE SET score=excluded.score''', (code, SEMESTER, score))
+
+    def conduct_score(self, code):
+        row = self.connection.execute('SELECT score FROM conduct_scores WHERE student_code=? AND semester=?', (code, SEMESTER)).fetchone()
+        return row['score'] if row else None
+
+    def add_record(self, code, name, subject_id, scores=None, conduct=None):
         code, name = self.student_values(code, name)
         self.score_values(scores)
+        self.validate_conduct(conduct)
         existing = self.student(code)
         if existing and existing['name'] != name:
             raise ValueError('Mã sinh viên này đã có tên khác. Dùng Sửa để thay đổi thông tin.')
@@ -121,11 +144,15 @@ class Database:
                 self.connection.execute('INSERT INTO students(code,name,class_name) VALUES (?,?,?)', (code, name, CLASS_NAME))
             if scores is not None:
                 self._insert_grade(code, subject_id, scores)
+            if conduct is not None:
+                self._save_conduct(code, conduct)
         return code
 
-    def update_record(self, original_code, code, name, subject_id, scores=None):
+    def update_record(self, original_code, code, name, subject_id, scores=None, conduct=...):
         code, name = self.student_values(code, name)
         self.score_values(scores)
+        if conduct is not ...:
+            self.validate_conduct(conduct)
         if not self.student(original_code):
             raise ValueError('Sinh viên được chọn không còn tồn tại. Hãy làm mới.')
         other = self.student(code)
@@ -136,6 +163,8 @@ class Database:
                                     (code, name, CLASS_NAME, original_code))
             if scores is not None:
                 self._insert_grade(code, subject_id, scores, replace=True)
+            if conduct is not ...:
+                self._save_conduct(code, conduct)
         return code
 
     def grade(self, code, subject_id):
@@ -197,7 +226,7 @@ class Database:
                 grade = grades.get((student['code'], subject['id']))
                 scores.append(policy.course_score(grade['regular'], grade['midterm'], grade['final']) if grade and policy else None)
             average = policy.semester_score(list(zip(scores, [s['credits'] for s in subjects]))) if policy else None
-            result.append({**student, 'scores': scores, 'average': average,
+            result.append({**student, 'scores': scores, 'average': average, 'conduct': self.conduct_score(student['code']),
                            'classification': policy.classify(average) if policy else 'Chưa đủ điểm'})
         return result
 

@@ -20,9 +20,11 @@ Không nạp sinh viên mẫu từ Designer vào database. Để sao lưu, đón
 
 ## Chức năng
 
-- **Nhập lại**: xóa nội dung biểu mẫu, gợi ý mã sinh viên tiếp theo.
+- **Điểm rèn luyện**: nhập từ 0 đến 100 dưới phần thông tin môn học; để trống nếu chưa có. Điểm được lưu theo sinh viên và học kỳ, hiển thị sau điểm TBC học kỳ trong bảng tổng hợp và file Excel tổng hợp. Chọn sinh viên, bấm **Sửa điểm** để thay đổi hoặc xóa điểm rèn luyện, rồi bấm **Xác nhận**. Điểm này không ảnh hưởng đến điểm TBC và xếp loại học tập.
+
+- **Nhập sinh viên mới**: xóa nội dung biểu mẫu, gợi ý mã sinh viên tiếp theo.
 - **Thêm**: lưu sinh viên mới hoặc thêm điểm môn khác cho sinh viên đã tồn tại. Mã và họ tên của sinh viên cũ phải khớp.
-- **Sửa điểm**: khi chọn một dòng, thông tin và điểm chỉ cho xem. Bấm **Sửa điểm** để mở chỉnh sửa; nút đổi thành **Xác nhận**. Bấm **Xác nhận** mới lưu vào SQLite và khóa lại các ô. Đổi mã sinh viên cũng cập nhật liên kết điểm. Trong lúc sửa, không đổi sinh viên hoặc môn học; bấm **Nhập lại** để bỏ thay đổi chưa lưu và chuẩn bị thêm sinh viên mới.
+- **Sửa điểm**: khi chọn một dòng, thông tin và điểm chỉ cho xem. Bấm **Sửa điểm** để mở chỉnh sửa; nút đổi thành **Xác nhận**. Bấm **Xác nhận** mới lưu vào SQLite và khóa lại các ô. Đổi mã sinh viên cũng cập nhật liên kết điểm. Trong lúc sửa, không đổi sinh viên hoặc môn học; bấm **Nhập sinh viên mới** để bỏ thay đổi chưa lưu và chuẩn bị thêm sinh viên mới.
 - **Xóa**: chọn xóa riêng điểm môn đang chọn hoặc xóa sinh viên cùng toàn bộ điểm.
 - Chọn môn ở một trong hai ô chọn để xem/nhập điểm môn đó.
 - Tìm theo mã hoặc tên, hỗ trợ gõ không dấu; làm mới để đọc lại dữ liệu SQLite.
@@ -38,10 +40,10 @@ Học kỳ 5 gồm: Lập trình Python, Lập trình web nâng cao, AutoCAD, L�
 Mỗi môn có một điểm thường xuyên (TX), một điểm định kỳ (ĐK) và một điểm cuối kỳ (CK), trong khoảng 0–10.
 
 ```text
-Tổng kết môn = (TX + 2 × ĐK + 3 × CK) / 6
+Điểm TBC môn học = (TX + 2 × ĐK + 3 × CK) / 6
 ```
 
-Điểm tổng kết làm tròn 1 chữ số thập phân theo quy tắc nửa lên. Xếp loại theo điểm đã làm tròn:
+Điểm TBC môn học làm tròn 1 chữ số thập phân theo quy tắc nửa lên. Xếp loại theo điểm đã làm tròn:
 
 | Điểm | Xếp loại |
 |---|---|
@@ -51,7 +53,7 @@ Tổng kết môn = (TX + 2 × ĐK + 3 × CK) / 6
 | 4,0–5,4 | Trung bình yếu |
 | Dưới 4,0 | Kém |
 
-Trung bình học kỳ hiện tính trung bình cộng điểm tổng kết của 5 môn, làm tròn 1 chữ số; đây là lựa chọn tạm thời vì chưa có quy định tín chỉ. Thiếu điểm bất kỳ môn nào thì trung bình và xếp loại học kỳ là **Chưa đủ điểm**.
+Điểm TBC học kỳ hiện tính trung bình cộng điểm TBC của 5 môn, làm tròn 1 chữ số; đây là lựa chọn tạm thời vì chưa có quy định tín chỉ. Thiếu điểm bất kỳ môn nào thì điểm TBC và xếp loại học kỳ là **Chưa đủ điểm**.
 
 Các bản ghi học kỳ trước được giữ lại, không tự chuyển thành điểm học kỳ 5.
 
